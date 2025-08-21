@@ -1,0 +1,86 @@
+\documentclass{book}
+
+\usepackage{amssymb, amsthm, amsfonts, amsmath, mathtools, mathrsfs}
+\usepackage{newtxmath, newtxtext}
+\usepackage[a4paper]{geometry}
+\usepackage[english]{babel}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{frontespizio}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\DeclareMathSizes{10}{10}{7}{5}
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{proposition}[theorem]{Proposizione}
+
+\newtheoremstyle{myplain}% Custom style for theorems
+    {1ex}% Space above
+    {1ex}% Space below
+    {\itshape}% Body font
+    {}% Indent amount
+    {\bfseries}% Theorem head font
+    {.}% Punctuation after theorem head
+    {0.5em}% Space after theorem head
+    {}% Theorem head spec
+
+\newtheoremstyle{mydefinition}% Custom style for definitions and similar environments
+    {1ex}% Space above
+    {1ex}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries}% Theorem head font
+    {.}% Punctuation after theorem head
+    {0.5em}% Space after theorem head
+    {}% Theorem head spec
+
+\theoremstyle{myplain}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollario}
+
+\theoremstyle{mydefinition}
+\newtheorem{definition}[theorem]{Definizione}
+\newtheorem{example}[theorem]{Esempio}
+\newtheorem{remark}[theorem]{Osservazione}
+
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ddiv}{\mathbf{\nabla} \cdot}
+\newcommand{\rr}{\mathbf{r}}
+\newcommand{\uu}{\mathbf{u}}
+\newcommand{\nb}{\mathbf{\nabla}}
+
+\renewcommand{\thetheorem}{\thesection.\arabic{theorem}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\begin{document}
+
+\begin{Preambolo*}
+    \usepackage{fourier}
+\end{Preambolo*}
+
+\begin{frontespizio}
+
+    \Universita{Verona}
+    \Facolta{Scienze e Ingegneria}
+    \Corso[laurea triennale]{Matematica Applicata}
+    \Logo{img/logo_univr_png}
+    \Annoaccademico{2024--2025}
+    \Titoletto{Tesi di laurea triennale}
+    \Titolo{Numerical Simulations of Vortex Reconnection in Quantum Fluids}
+    \Sottotitolo{}
+    \Candidato[VR489417]{Alessio Zanella}
+    \Relatore{Marco Caliari}
+
+\end{frontespizio}
+
+\tableofcontents
+
+\chapter{Introduction}
+\input{src/intro}
+
+\end{document}

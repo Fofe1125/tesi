@@ -1,0 +1,37 @@
+\section{Introduction to superfluidity}
+
+The equations of classical fluid dynamics, such as the Navier-Stokes equations, have been known for more than a century. However, the complete understanding of their solutions in a turbulent regime remains one of the most important unsolved problems in classical physics.
+
+\medskip
+
+Strangely, in the context of quantum mechanics, there exists quantum entities called bosons, as they respond to Bose-Einstein statistics, unlike Fermions, which follows the Fermi-Dirac statistics. At temperatures approaching absolute zero,these exhibit peculiar behaviors, in particular they can occupy the same quantum state, which fermions cannot, due to the Pauli exclusion principle. As a result, when a large number of bosons are cooled, a condensate is formed. This collective behavior gives rise to remarkable phenomena, such as superfluidity.
+
+\medskip
+
+In this condensed state, the behavior of the superfluid is described by a single wave function, which carries both density and motion information. The dynamical evolution of this function is given by the Schrödinger equation, which, in our case, is called the Gross-Pitaevskii equation (GPE), a nonlinear form of the above equation.
+
+Of course, since it is still a fluid, vorticity phenomena can occur, with the latter evolving by moving and recombining, thus establishing the relationship with classical fluid dynamics. In this framework, numerical simulations play a fundamental role, as the GPE is difficult to solve analytically, especially in the presence of vortices and complex phenomena such as the evolution and recombination of the latter. 
+
+\medskip
+
+The aim of this thesis is to study in detail an efficient numerical method for the resolution of GPE in the presence of vortices, both from the point of view of numerical analysis and by performing some experiments. 
+
+\newpage
+
+\section{The mathematical context}
+
+Since the function $\psi$ of our intrest is a wave function, we can express it in the form 
+
+$$ \psi(\rr, t) = \sqrt{\rho} \exp(\ii S) $$
+
+where $\rho = \rho(\rr, t) = \abs{\psi(\rr, t)}^2$ is the density function, and $S = S(\rr, t)$ is the phase.
+
+The GPE, in the adimensional form is
+
+\begin{equation}
+    \psi_t = \frac\ii2 \left[\laplace + (1 - \abs{\psi}^2)\right] \psi 
+\end{equation}
+
+where $\laplace = \sum_{j = 1}^k \frac{\partial^2}{\partial x_j^2} $ for $k = 2$ or $k = 3$.
+
+As a convention, we use $\rho_\infty = 1$
