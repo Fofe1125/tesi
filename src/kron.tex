@@ -1,0 +1,155 @@
+\chapter{Kroneker products and its properties}
+
+From now on, in this section $I$ denotes the identity matrix.
+
+\begin{definition}
+    Let $A \in \mathbb{R}^{m \times n}$ and $B \in \mathbb{R}^{p \times q}$. 
+    The \emph{Kronecker product} is defined as
+    \[
+        A \kron B = 
+        \begin{bmatrix}
+            a_{11}B & \cdots & a_{1n}B \\
+            \vdots & \ddots & \vdots \\
+            a_{m1}B & \cdots & a_{mn}B
+        \end{bmatrix} \in \mathbb{R}^{mp \times nq}.
+    \]
+    \label{ch:krondef}
+\end{definition}
+
+\begin{example}
+\[
+    \begin{bmatrix}
+        1 & 2 \\
+        3 & 4
+    \end{bmatrix}
+    \kron
+    \begin{bmatrix}
+        0 & 5 \\
+        6 & 7
+    \end{bmatrix} 
+    =
+    \begin{bmatrix}
+        0 & 5 & 0 & 10 \\
+        6 & 7 & 12 & 14 \\
+        0 & 15 & 0 & 20 \\
+        18 & 21 & 24 & 28
+    \end{bmatrix}.
+\]
+\end{example}
+
+\begin{proposition}
+    If $A,B,C,D$ are matrices of compatible dimensions, then
+    \[
+        (A \kron B)(C \kron D) = (AC) \kron (BD).
+    \]
+    \label{prop:prod}
+\end{proposition}
+
+\begin{proof}
+    The $(i,j)$ block of $(A \kron B)(C \kron D)$ is
+    \[
+        \sum_k (a_{ik}B)(c_{kj}D) = \Big(\sum_k a_{ik}c_{kj}\Big) BD = (AC)_{ij}BD,
+    \]
+    which coincides with the $(i,j)$ block of $(AC) \kron (BD)$.
+\end{proof}
+
+\begin{proposition}
+    Let $A \in \C^{m \times m}$, $B \in \C^{n \times n}$, such that $[A,B] = 0$ and $\uu \in \C^{mn}$. Then 
+
+    \[(A \kron B)\uu = BUA^T\]
+
+    where $\uu = \mathrm{Vec}(U)$, $U_{i,j} =  u_{i + m(j - 1)}$ 
+
+    \label{prop:tensorprod}
+\end{proposition}
+
+\begin{proof}
+    Considering the product 
+
+    \[
+        (A \kron B)\uu = 
+        \begin{bmatrix}
+            a_{11}B & \cdots & a_{1n}B \\
+            \vdots & \ddots & \vdots \\
+            a_{m1}B & \cdots & a_{mn}B
+        \end{bmatrix}
+        \begin{bmatrix}
+            u_1 \\
+            \vdots \\
+            u_{mn}
+        \end{bmatrix}
+    \]
+
+    we have that the $i$-th component of the resulting vector is 
+
+    \[\sum_{j = 1}^{m}a_{ij}Bu((i - 1)n + 1:in)\]
+
+    where $u(k:\ell)$ denotes the vector $\left[u_k, u_{k+1}, \cdots, u_{\ell}\right]^T$.
+
+    By definition of the matrix $U \in \C^{m \times n}$ such that $\uu = \mathrm{Vec}(U)$, we have
+
+    \[
+        u((j-1)n + 1 : j n) = U(j,:) ^T,
+    \]
+
+    Given that, we can now rewrite the expression for the $i$-th component of the result.
+
+    \[
+        V_{i,:} = \sum_{j = 1}^m a_{i,j} \, B \, U(j,:)^T = \sum_{j = 1}^m (B \, U)_{j,:} \, a_{i,j} 
+    \]
+
+\end{proof}
+
+\begin{lemma}
+    For every $n \in \mathbb{N}$, one has
+    \[
+        (I \kron A)^n = I \kron A^n.
+    \]
+\end{lemma}
+
+\begin{proof}
+    By induction on $n$. For $n=1$ the claim is trivial. Suppose it holds for $n-1$; then
+    \[
+        (I \kron A)^{n} = (I \kron A)(I \kron A)^{n-1} =(I \kron A)(I \kron A^{n-1}) = II \kron AA^{n-1} = I \kron A^{n}
+    \]
+    where we used the previous proposition.
+\end{proof}
+
+\begin{lemma}
+    Let $A,B \in \C^{m \times n}$ and $X$ a matrix. Then $X \kron A + X \kron B = X \kron (A + B)$.
+\end{lemma}
+
+\begin{proposition}
+    Let $\left\{A_k\right\}_{k = 1}^\infty$ be a sequence of matrices, where $A_j \in \C^{m \times n}$ for all $j$. Let $I$ be the identity matrix of arbitrary dimensions. Then 
+    \[ \sum_{k = 1}^\infty \left(I_k \kron A_k\right) = I_k \kron \sum_{k = 1}^\infty A_k \]
+\end{proposition}
+
+\begin{proof}
+    We consider the infinite sum as the limit of a partial sum as $\sum_{k = 1}^\infty \left(I \kron A_k\right) = \lim_{n \to \infty} \sum_{k = 1}^n \left(I \kron A_k\right)$.
+
+    We now proceed for induction on $n$. For $n = 1$ the claim is trivial. Suppose it holds for $n-1$, then 
+
+    \[
+        \sum_{k = 1}^n \left(I \kron A_k\right) = I \kron A_n + \sum_{k = 1}^{n-1} \left(I \kron A_k\right) = I \kron A_n + I \kron \sum_{k = 1}^{n-1} A_k = I \kron \sum_{k = 1}^n A_k
+    \]
+\end{proof}
+
+\begin{theorem}
+    Let $f$ be an analytic function. Then
+    \[
+        f(I \kron A) = I \kron f(A).
+    \]
+    \label{th:analytic}
+\end{theorem}
+
+\begin{proof}
+    Write $f(X) = \sum_{k=0}^\infty \alpha_k X^k$. Then
+    \[
+        f(I \kron A) = \sum_{k=0}^\infty \alpha_k (I \kron A)^k
+        = \sum_{k=0}^\infty \alpha_k (I \kron A^k)
+        = I \kron \left(\sum_{k=0}^\infty \alpha_k A^k\right)
+        = I \kron f(A).
+    \]
+\end{proof}
+
+

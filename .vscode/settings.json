@@ -2,7 +2,7 @@
 	"latex-workshop.latex.recipes": [
 	   {
 		   "name": "xelatex3frn",
-		   "tools": ["xelatex", "xelatex-frn", "xelatex", "remove-frn"]
+		   "tools": ["xelatex", "bibtex", "xelatex-frn","xelatex", "remove-frn"]
 	   }
 	],
 	"latex-workshop.latex.autoBuild.run": "onSave",
@@ -26,9 +26,9 @@
 		"build/*.fls",
 		"build/*.log",
 		"build/*.fdb_latexmk",
-		"build/*-frn.*"
+		"build/*-frn.*", 
+		"src/*.aux"
 	],
-	"latex-workshop.latex.recipes.default": "xelatex2",
 	"latex-workshop.latex.tools": [
 		{
 			"name": "xelatex",
@@ -40,19 +40,24 @@
 				"%DOC%"
 			]
 		},
-	   {
-		   "name": "xelatex-frn",
-		   "command": "sh",
-		   "args": [
-			   "-c",
-			   "[ -f %DOCFILE%-frn.tex ] && xelatex -synctex=1 -interaction=nonstopmode -file-line-error %DOCFILE%-frn.tex || true"
-		   ]
-	   },
-	   {
-		   "name": "remove-frn",
-		   "command": "sh",
-		   "args": ["-c", "rm -f *-frn.* || true"]
-	   }
+		{
+			"name": "bibtex",
+			"command": "bibtex",
+			"args": ["%DOCFILE%"]
+		},
+		{
+			"name": "xelatex-frn",
+			"command": "sh",
+			"args": [
+				"-c",
+				"[ -f %DOCFILE%-frn.tex ] && xelatex -synctex=1 -interaction=nonstopmode -file-line-error %DOCFILE%-frn.tex || true"
+			]
+		},
+		{
+			"name": "remove-frn",
+			"command": "sh",
+			"args": ["-c", "rm -f *-frn.* src/*.aux || true"]
+		}
 	], 
 	"latex-workshop.latex.autoClean.run": "onBuilt"
 }

@@ -1,7 +1,8 @@
-\documentclass{book}
+\documentclass[a4paper, 12pt, openany]{report}
 
 \usepackage{amssymb, amsthm, amsfonts, amsmath, mathtools, mathrsfs}
 \usepackage{newtxmath, newtxtext}
+% \usepackage{fourier}
 \usepackage[a4paper]{geometry}
 \usepackage[english]{babel}
 \usepackage{verbatim}
@@ -9,13 +10,16 @@
 \usepackage{frontespizio}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{subcaption}
+
+\hypersetup{
+  colorlinks=false,
+  pdfborder={0 0 0} % forza border a zero
+}
 
 \DeclareMathSizes{10}{10}{7}{5}
-\numberwithin{equation}{section}
-
-\theoremstyle{plain}
-\newtheorem{theorem}{Teorema}[section]
-\newtheorem{proposition}[theorem]{Proposizione}
+% \numberwithin{equation}{section}
 
 \newtheoremstyle{myplain}% Custom style for theorems
     {1ex}% Space above
@@ -38,29 +42,41 @@
     {}% Theorem head spec
 
 \theoremstyle{myplain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollario}
+\newtheorem{corollary}[theorem]{Corollary}
 
 \theoremstyle{mydefinition}
-\newtheorem{definition}[theorem]{Definizione}
-\newtheorem{example}[theorem]{Esempio}
-\newtheorem{remark}[theorem]{Osservazione}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
 
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\kron}{\otimes}
 \newcommand{\abs}[1]{\left| #1 \right|}
 \newcommand{\ii}{\mathrm{i}}
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\ddiv}{\mathbf{\nabla} \cdot}
+\newcommand{\xx}{\mathbf{x}}
+\newcommand{\hh}{\mathbf{h}}
 \newcommand{\rr}{\mathbf{r}}
 \newcommand{\uu}{\mathbf{u}}
 \newcommand{\nb}{\mathbf{\nabla}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdvn}[3]{\frac{\partial^{#3} #1}{\partial #2^{#3}}}
+\newcommand{\lap}{\laplace}
+% \newcommand{\lap}{\mathbf{\Delta}}
 
-\renewcommand{\thetheorem}{\thesection.\arabic{theorem}}
+\renewcommand{\thetheorem}{\thechapter.\arabic{theorem}}
 \renewcommand{\qedsymbol}{$\blacksquare$}
 
 \begin{document}
 
 \begin{Preambolo*}
-    \usepackage{fourier}
+    \usepackage{newtxtext}
 \end{Preambolo*}
 
 \begin{frontespizio}
@@ -71,7 +87,7 @@
     \Logo{img/logo_univr_png}
     \Annoaccademico{2024--2025}
     \Titoletto{Tesi di laurea triennale}
-    \Titolo{Numerical Simulations of Vortex Reconnection in Quantum Fluids}
+    \Titolo{Numerical Simulations of Vortex Dynamics in Quantum Fluids}
     \Sottotitolo{}
     \Candidato[VR489417]{Alessio Zanella}
     \Relatore{Marco Caliari}
@@ -80,7 +96,21 @@
 
 \tableofcontents
 
-\chapter{Introduction}
-\input{src/intro}
+% introduction
+\include{src/intro}
+
+% numerical methods
+\include{src/space}
+\include{src/time_integration}
+
+% numerical experiments
+\include{src/experiment}
+
+\appendix
+\input{src/kron}
+\input{src/impl}
+
+\bibliographystyle{plain}
+\bibliography{reference}
 
 \end{document}
