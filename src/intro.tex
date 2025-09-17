@@ -63,5 +63,14 @@ are the pressure and the quantum stress tensor, respectively.
 
 These equations resemble the classical Navier-Stokes equations for a barothopic, inviscid fluid, where the volume forces are conservative (in our case they are constantly zero). The main difference is in the stress term, since a quantum fluid is inviscid, and the stress is not proportional to the strain rate tensor, but rather to the second derivatives of the logarithm of the density.
 
+\subsection{Approximation of steady-state vortex}
+
+In a two-dimensional domain we set $\psi(x,y) = \rho\left(\sqrt{x^2 + y^2}\right)\exp\left(\ii \theta(x,y)\right)$, where $\rho(r)$ is a function to be determined. By imposing the non dependence by the time (steady state solution), we obtain that $\rho$ has to satisfy
+
+\begin{equation}
+    \rho'' + \frac{\rho'}{r} + \frac{(\rho')^2}{2\rho} - \frac{2\rho}{r^2} + 2(1 - \rho)\rho = 0
+    \label{eq:density}
+\end{equation}
+
 
 
