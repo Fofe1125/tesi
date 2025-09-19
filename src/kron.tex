@@ -1,4 +1,4 @@
-\chapter{Kroneker products and its properties}
+\chapter{Kronecker products and its properties}
 
 From now on, in this section $I$ denotes the identity matrix.
 
@@ -56,49 +56,62 @@ From now on, in this section $I$ denotes the identity matrix.
 \begin{proposition}
     Let $A \in \C^{m \times m}$, $B \in \C^{n \times n}$, such that $[A,B] = 0$ and $\uu \in \C^{mn}$. Then 
 
-    \[(A \kron B)\uu = BUA^T\]
+    \[(A \kron B)\uu = \mathrm{vec}\left(BUA^T\right)\]
 
-    where $\uu = \mathrm{Vec}(U)$, $U_{i,j} =  u_{i + m(j - 1)}$ 
+    where $\uu = \mathrm{vec}(U)$, $U_{i,j} =  u_{i + m(j - 1)}$ 
 
     \label{prop:tensorprod}
 \end{proposition}
 
 \begin{proof}
-    Considering the product 
 
     \[
-        (A \kron B)\uu = 
-        \begin{bmatrix}
-            a_{11}B & \cdots & a_{1n}B \\
-            \vdots & \ddots & \vdots \\
-            a_{m1}B & \cdots & a_{mn}B
-        \end{bmatrix}
-        \begin{bmatrix}
-            u_1 \\
-            \vdots \\
-            u_{mn}
-        \end{bmatrix}
+        \left(A \kron B\right)_{\left(i-1\right)m+k,\;\left(j-1\right)m+\ell} 
+        = a_{i,j}\,b_{k,\ell},
     \]
 
-    we have that the $i$-th component of the resulting vector is 
+    where $1 \leq i,j \leq n$ and $1 \leq k,\ell \leq m$.
 
-    \[\sum_{j = 1}^{m}a_{ij}Bu((i - 1)n + 1:in)\]
+    The component of the product $\left(A \kron B\right)\uu$ corresponding to 
+    row index $\left(i-1\right)m+k$ is, by definition,
 
-    where $u(k:\ell)$ denotes the vector $\left[u_k, u_{k+1}, \cdots, u_{\ell}\right]^T$.
+    \begin{align*}
+        \left(\left(A \kron B\right)\uu\right)_{\left(i-1\right)m+k}
+        &= \sum_{j=1}^n \sum_{\ell=1}^m 
+        \left(A \kron B\right)_{\left(i-1\right)m+k,\;\left(j-1\right)m+\ell}\; 
+        u_{\left(j-1\right)m+\ell} \\
+        &= \sum_{j=1}^n \sum_{\ell=1}^m a_{i,j}\,b_{k,\ell}\; U_{\ell,j},
+    \end{align*}
 
-    By definition of the matrix $U \in \C^{m \times n}$ such that $\uu = \mathrm{Vec}(U)$, we have
-
+    Reordering the sums and factoring out $a_{i,j}$ gives
     \[
-        u((j-1)n + 1 : j n) = U(j,:) ^T,
+        \left(\left(A \kron B\right)\uu\right)_{\left(i-1\right)m+k}
+        = \sum_{\ell=1}^m b_{k,\ell}\left(\sum_{j=1}^n U_{\ell,j}\,a_{i,j}\right).
     \]
 
-    Given that, we can now rewrite the expression for the $i$-th component of the result.
+    The inner sum is exactly the $\left(\ell,i\right)$-entry of the matrix $UA^T$, since
+    \[
+        \left(UA^T\right)_{\ell,i} 
+        = \sum_{j=1}^n U_{\ell,j}\,\left(A^T\right)_{j,i} 
+        = \sum_{j=1}^n U_{\ell,j}\,a_{i,j}.
+    \]
+    Therefore,
+    \[
+        \left(\left(A \kron B\right)\uu\right)_{\left(i-1\right)m+k}
+        = \sum_{\ell=1}^m b_{k,\ell}\,\left(UA^T\right)_{\ell,i}
+        = \left(B\,UA^T\right)_{k,i}.
+    \]
+    
+    Since this holds for all $i=1,\dots,n$ and $k=1,\dots,m$, we conclude that
 
     \[
-        V_{i,:} = \sum_{j = 1}^m a_{i,j} \, B \, U(j,:)^T = \sum_{j = 1}^m (B \, U)_{j,:} \, a_{i,j} 
+        \left(A \kron B\right)\,\mathrm{vec}(U) = \mathrm{vec}\!\left(B\,U\,A^T\right).
     \]
 
 \end{proof}
+
+
+
 
 \begin{lemma}
     For every $n \in \mathbb{N}$, one has
@@ -110,7 +123,7 @@ From now on, in this section $I$ denotes the identity matrix.
 \begin{proof}
     By induction on $n$. For $n=1$ the claim is trivial. Suppose it holds for $n-1$; then
     \[
-        (I \kron A)^{n} = (I \kron A)(I \kron A)^{n-1} =(I \kron A)(I \kron A^{n-1}) = II \kron AA^{n-1} = I \kron A^{n}
+        (I \kron A)^{n} = (I \kron A)(I \kron A)^{n-1} =(I \kron A)(I \kron A^{n-1}) = I \cdot I \kron A \cdot A^{n-1} = I \kron A^{n}
     \]
     where we used the previous proposition.
 \end{proof}
@@ -136,9 +149,11 @@ From now on, in this section $I$ denotes the identity matrix.
 
 \begin{theorem}
     Let $f$ be an analytic function. Then
+
     \[
-        f(I \kron A) = I \kron f(A).
+        f(I \kron A) = I \kron f(A) \quad \text{and} \quad f(A \kron I) = f(A) \kron I
     \]
+
     \label{th:analytic}
 \end{theorem}
 
@@ -150,6 +165,8 @@ From now on, in this section $I$ denotes the identity matrix.
         = I \kron \left(\sum_{k=0}^\infty \alpha_k A^k\right)
         = I \kron f(A).
     \]
+
+    We proceed in the same way for the other.
 \end{proof}
 
 

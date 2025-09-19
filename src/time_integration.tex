@@ -12,6 +12,12 @@ Consider the Cauhcy problem
     \label{eq:cauchy}
 \end{equation}
 
+where $A$ and $B$ are two differential operators.
+
+The analytical solution for \ref{eq:cauchy} is
+
+\[ u(t) = e^{(A + B)t} u_0 \]
+
 \begin{proposition}
     If $A$ and $B$ commute, then $\exp(A+B) = \exp(A)\exp(B)$
 \end{proposition}
@@ -27,10 +33,6 @@ Consider the Cauhcy problem
     \end{align*}
 
 \end{proof}
-
-The analytical solution for \ref{eq:cauchy} is
-
-\[ u(t) = e^{(A + B)t} u_0 \]
 
 So, for the previous proposition, if $A$ and $B$ commute, then $u(t) = e^{tA}e^{tB}u_0 \implies u(t + \tau) = e^{\tau A}e^{\tau B}u(t)$.
 
@@ -131,7 +133,7 @@ where $u_n \approx u(t_n)$.
         \tau^3 \left( \frac{1}{12}\left[B, \left[B, A\right]\right] - \frac{1}{24} \left[A, \left[A,B\right]\right]\right) + \bigO(\tau^4) = \bigO(\tau^3)
     \]
 
-    Since the cubic terms do not cancel, the method has a local error proportional to $\tau^3$, and is therefore of order 2.
+    Since, as $[A,B] \neq 0$, the cubic term does not cancel, hence the method has a local error proportional to $\tau^3$, and is therefore of order 2.
 \end{proof}
 
 \begin{figure}
@@ -143,15 +145,21 @@ where $u_n \approx u(t_n)$.
 
 \subsection{Method applied to GPE}
 
-In the case of GPE, we have $A = \frac\ii2 \lap$ and $B = \frac\ii2 \left(1 - \abs{u}^2\right)$. 
+In the case of GPE, we have $A = \frac\ii2 \lap$ and $B = \frac\ii2 \left(1 - \abs{u}^2\right)$, this results in the numerical scheme 
+
+\begin{align*}
+    \bar{\uu}_{n+1} &= \exp\left(\frac{\tau\ii}{2} \lap\right) \uu_n \\
+    \tilde{\uu}_{n+1} &= \exp\left(\frac{\tau\ii}{2} \left(1 - \abs{\bar{\uu}_{n+1}}^2\right)\right)\bar{\uu}_{n+1} \\
+    \uu_{n+1} &= \exp\left(\frac{\tau\ii}{2} \lap\right) \tilde{\uu}_{n+1}
+\end{align*}
 
 For $B$ we directly approximate the solution. The treatment for the first is more delicate: since in fact the Laplacian operator is approximated by the formula \ref{eq:lapprox}, we need to compute the matrix-vector product 
 
 \[
-    \exp\left(\frac\tau2 \left(I^y \kron D_2^x + D_2^y \kron I^x\right)\right)u_n
+    \exp\left(\frac\tau2 \left(I^y \kron D_2^x + D_2^y \kron I^x\right)\right)\uu_n
 \]
 
-which, for large matrices, is almost impossible dealing with in computationally reasonable times. Our goal would be avoiding the construction of any Kroneker product; instead we directly compute the action of the latter on the vector $\uu$. First we notice that $I^y \kron D_2^x$ and $D_2^y \kron I^x$ commute, as trivial consequence of the formula \ref{prop:prod}. This implies that 
+which turns out to be a full matrix-vector product of large dimension, leading to a huge memory requirement and, consequently, to an unreasonable computational time. Our goal would be avoiding the construction of any Kroneker product; instead we directly compute the action of the latter on the vector $\uu$. First we notice that $I^y \kron D_2^x$ and $D_2^y \kron I^x$ commute, as trivial consequence of the formula \ref{prop:prod}. This implies that 
 
 \[ \exp\left(I^y \kron D_2^x + D_2^y \kron I^x\right) = \exp\left(I^y \kron D_2^x\right)\exp\left(D_2^y \kron I^x\right) \]
 
@@ -163,5 +171,9 @@ and the same for the other. Using again the formula \ref{prop:prod}, we obtain
 
 \[ \exp\left(I^y \kron D_2^x + D_2^y \kron I^x\right)\uu = \left(\exp\left(D_2^y\right) \kron \exp\left(D_2^x\right)\right)\uu \]
 
-This is way better than directly compute the full exponential of Kroneker product, but it still requires the computation of a large full matrix. This can be avoided, since we can take into account the matrix $U = (u_{i,j}) \in \C^{m_x \times m_y}$, with the relation $U_{i,j} = u_{i + m_x(j - 1)}$, also denoted with $\mbox{Vec}(U) = u$. Let now $E_x = \exp\left(\tau D_2^x\right) = e_{i_1, j_1}$ and $E_y = \exp\left(\tau D_2^y\right) = e_{i_2, j_2}$. Thanks to \ref{prop:tensorprod}
+This is way better than directly compute the full exponential of Kroneker product, but it still requires the computation of a large full matrix. This can be avoided, since we can take into account the matrix $U = (u_{i,j}) \in \C^{m_x \times m_y}$, with the relation $U_{i,j} = \uu_{i + m_x(j - 1)}$, also denoted with $\mbox{vec}(U) = \uu$. Let now $E_x = \exp\left(\tau D_2^x\right)$ and $E_y = \exp\left(\tau D_2^y\right)$. Thanks to \ref{prop:tensorprod}, we have that 
+
+\[\left(\exp\left(D_2^y\right) \kron \exp\left(D_2^x\right)\right)\uu = \mathrm{vec}\left(E_x \, U \, E_y^T\right)\]
+
+This result is way better than the previous one, as now we only have to compute two matrix-matrix products.
 

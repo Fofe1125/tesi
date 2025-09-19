@@ -32,9 +32,9 @@ This corresponds to the usual second-order central difference scheme with Neuman
 \subsection{Finite differences on non uniform grid}
 \label{sb:nufg}
 
-Although the above numerical scheme is simple and efficient to implement, in our case it is not the most suitable method, since, as we will see in the next chapter, it requires a very large number of points to obtain physically reliable results, especially when integrating over long time intervals.  
+Although the above numerical scheme is simple and easy to implement, in our case it is not the most suitable one, since, as we will see in the next chapter, it requires a very large number of points to obtain physically reliable results, especially when integrating over long time intervals.  
 
-Given that the vortex density exhibits strong variations expecially near its core, while remaining almost constant towards the boundary of the domain, it would be preferable to employ a grid that clusters points around the vortex center(s). 
+Given that the vortex density exhibits stronger variations near its core, while remaining almost constant towards the boundary of the domain, it would be preferable to employ a grid that clusters points around the vortex center(s). 
 In this way, higher resolution is achieved in the regions where sharp variations occur.
 
 Consider the interval $[a,b]$ and let $\xx = [x_1, \dots, x_m]^T$, with 
@@ -85,7 +85,7 @@ The expression for $h_1$, after some trivial algebra, is
 
 To construct the one-dimensional discretization, it is important to note that, in the case of non-uniform finite differences, the local error can be shown to be proportional to $\bigO(h_j^2)$ provided that the difference between $h_j$ and $h_{j-1}$ is of order $\bigO(\max\{h_j^2, h_{j-1}^2\})$, therefore, care must be taken in constructing the grid using the above formula, so as to keep the difference between two consecutive steps as smooth as possible. Otherwise, the error would not even be proportional to $h_j$, which in the worst case would lead to an inconsistent scheme and consequently to significant errors in the time integration.
 
-With this in mind, we can construct the discretization along one direction by applying the procedure described above to the interval $(0, x_c)$, where $x_c$ denotes the center of the vortex, clustering the points towards $x_c$.  
+With this in mind, we can construct the discretization along one direction by applying the procedure described above to the interval $[0, x_c]$, where $x_c$ denotes the center of the vortex, clustering the points towards $x_c$.  
 We then extend the grid from $x_c$ to the boundary of the domain, using the same values of $h$ and $\delta$, so that the spacing over the interval $[0, 2x_c]$ remains consistent with the previous construction.  
 The grid can be further extended up to the domain boundary within a small tolerance, since this procedure does not necessarily guarantee that the endpoints are reached exactly.  
 However, this is not problematic, as small discrepancies at the domain boundaries do not significantly affect the evolution of the dynamics, being far from the regions of interest.
