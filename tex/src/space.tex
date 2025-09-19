@@ -1,0 +1,115 @@
+\chapter{Numerical Methods}
+
+\section{Space discretization}
+
+In this section we describe the spatial discretization methods used to simulate the GPE.
+
+\subsection{Finite differences on uniform grid}
+
+Let us discretize the interval $[-L, L]$ with $m$ equispaced points, so that 
+\[
+    x_1 = -L, \quad x_m = L, \quad x_j = -L + (j-1)h, \quad 1 \leq j \leq m,
+\]
+
+where the mesh size is given by $h = \tfrac{2L}{m-1}$.  
+Following \cite{dispenseCaliari}, the second derivative along one spatial direction is approximated by the standard finite-difference matrix
+
+\[
+    D_{2}^x = \frac{1}{h^2}
+    \begin{bmatrix}
+        -2 & 2  & 0  & 0  & \cdots & 0  & 0 \\
+        1 & -2 & 1  & 0  & \cdots & 0  & 0 \\
+        0 &  1 & -2 & 1  & \cdots & 0  & 0 \\
+        0 &  0 &  1 & -2 & \ddots & 0  & 0 \\
+        \vdots & \vdots & \ddots & \ddots & \ddots & \vdots & \vdots \\
+        0 &  0 &  0 &  \dots & 1 & -2 & 1 \\
+        0 &  0 &  0 &  0 & \cdots &  2 & -2
+    \end{bmatrix}
+\]
+
+This corresponds to the usual second-order central difference scheme with Neumann boundary conditions. 
+
+\subsection{Finite differences on non uniform grid}
+\label{sb:nufg}
+
+Although the above numerical scheme is simple and easy to implement, in our case it is not the most suitable one, since, as we will see in the next chapter, it requires a very large number of points to obtain physically reliable results, especially when integrating over long time intervals.  
+
+Given that the vortex density exhibits stronger variations near its core, while remaining almost constant towards the boundary of the domain, it would be preferable to employ a grid that clusters points around the vortex center(s). 
+In this way, higher resolution is achieved in the regions where sharp variations occur.
+
+Consider the interval $[a,b]$ and let $\xx = [x_1, \dots, x_m]^T$, with 
+
+\[
+    x_1 = a, \quad x_m = b, \quad x_j = x_{j-1} + h_j,
+\]
+
+where the grid spacings satisfy $h_j = (1 + \delta) h_{j-1}$ for some fixed parameter $\delta$.  
+This leads to the recurrence
+
+\begin{align*}
+    h_j &= (1 + \delta) h_{j-1} \\
+        &= (1 + \delta)^2 h_{j-2} \\
+        &\;\;\vdots \\
+        &= (1 + \delta)^{j-1} h_1.
+\end{align*}
+
+The constraint is that the sum of all step sizes must cover the entire interval length, which gives
+\[
+    \sum_{j=1}^{m-1} h_j
+    = h_1 \sum_{j=1}^{m-1} (1+\delta)^{j-1} 
+    = b-a.
+\]
+
+There are three natural ways to proceed, each consisting of fixing two among the parameters $\delta$, $m$, and $h_1$, and then computing the remaining one.  
+In what follows, we present two cases: computing $m$ and computing $h_1$.
+
+First of all, we observe that the sum is a geometric series with ratio $1+\delta$, whose closed-form expression is known analytically:  
+\[
+    \sum_{j=1}^{m-1} (1+\delta)^{j-1} = \frac{(1+\delta)^{m-1} - 1}{\delta}.
+\]
+
+To compute $m$ we proceed as follows:
+
+\begin{align*}
+    h_1 \frac{(1+\delta)^{m-1} - 1}{\delta} = b-a 
+    &\iff (1+\delta)^{m-1} = \frac{\delta(b-a)}{h_1} + 1 \\
+    &\iff (m-1)\log(1+\delta) = \log\!\left(\frac{\delta(b-a)}{h_1} + 1\right) \\
+    &\iff m = \left\lceil \frac{\log\!\left(\tfrac{\delta(b-a)}{h_1} + 1\right)}{\log(1+\delta)} + 1 \right\rceil.
+\end{align*}
+
+Since $m$ must be an integer, we take the ceiling in the final expression.
+
+The expression for $h_1$, after some trivial algebra, is
+
+\[ h_1 = \frac{\delta(b - a)}{1 - (1 + \delta)^{m - 1}} \]
+
+To construct the one-dimensional discretization, it is important to note that, in the case of non-uniform finite differences, the local error can be shown to be proportional to $\bigO(h_j^2)$ provided that the difference between $h_j$ and $h_{j-1}$ is of order $\bigO(\max\{h_j^2, h_{j-1}^2\})$, therefore, care must be taken in constructing the grid using the above formula, so as to keep the difference between two consecutive steps as smooth as possible. Otherwise, the error would not even be proportional to $h_j$, which in the worst case would lead to an inconsistent scheme and consequently to significant errors in the time integration.
+
+With this in mind, we can construct the discretization along one direction by applying the procedure described above to the interval $[0, x_c]$, where $x_c$ denotes the center of the vortex, clustering the points towards $x_c$.  
+We then extend the grid from $x_c$ to the boundary of the domain, using the same values of $h$ and $\delta$, so that the spacing over the interval $[0, 2x_c]$ remains consistent with the previous construction.  
+The grid can be further extended up to the domain boundary within a small tolerance, since this procedure does not necessarily guarantee that the endpoints are reached exactly.  
+However, this is not problematic, as small discrepancies at the domain boundaries do not significantly affect the evolution of the dynamics, being far from the regions of interest.
+
+Once we have the step vector $\hh$ constructed, we can discretize the second derivative along one direction using the tridiagonal matrix
+
+\[
+    D_2^x =
+    \begin{bmatrix}
+        -\frac{2}{h_1^2} & \frac{2}{h_1^2} & 0 & \dots & 0 \\
+        \frac{2}{h_2(h_1+h_2)} & -\frac{2}{h_1 h_2} & \frac{2}{h_1(h_1+h_2)} & \dots & 0 \\
+        0 & \frac{2}{h_3(h_2+h_3)} & -\frac{2}{h_2 h_3} & \ddots & 0 \\
+        \vdots & \ddots & \ddots & \ddots & \frac{2}{h_{m-1}(h_{m-2}+h_{m-1})} \\
+        0 & \dots & 0 & \frac{2}{h_{m-1}^2} & -\frac{2}{h_{m-1}^2}
+    \end{bmatrix}
+\]
+
+\subsection{Laplacian discretization}
+
+Now, in both cases (uniforn or not), the Laplacian operator in two dimension is approximated by 
+
+\begin{equation}
+    \lap \approx I^y \kron D_2^X + D_2^Y \kron I^x
+    \label{eq:lapprox}
+\end{equation}
+
+where $\kron$ denotes the Kronecker product (see \ref{ch:krondef} for further details), and $I^*$ denotes the identity matrix of the dimension equal to the number of points in each direction.

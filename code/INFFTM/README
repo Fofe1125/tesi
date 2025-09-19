@@ -1,0 +1,102 @@
+INFFTM: a MATLAB code for the evaluation of 3d Fourier series at
+arbitrary points and for the computation of the solution of the
+Gross-Pitaevskii equation for superfluids as a 3d Fourier series
+
+Version 1.0
+
+1) Make NFFT available
+
+The sources of NFFT (Nonuniform Fast Fourier Transform) are located at
+
+https://www-user.tu-chemnitz.de/~potts/nfft/download.php
+
+1.1) NFFT and Matlab
+
+The installation of the NFFT software library follows the usual GNU
+principles (./configure, make). In order to build the Matlab interface, you
+have to configure with
+
+./configure --with-matlab=DIR --enable-openmp
+make
+
+where DIR is the directory where Matlab is installed.
+If you do not know it, the path to Matlab can be obtained by giving the command
+
+matlab -n
+
+On a Windows system, 64bit binaries are available at the NFFT download page.
+
+1.2) NFFT and GNU Octave
+
+Since nfft-3.3.2, GNU Octave is supported via MEX interface. In order to build
+the GNU Octave interface, you have to configure with
+
+./configure --with-octave=DIR --enable-openmp
+make
+
+where DIR is the directory where GNU Octave is installed. If GNU Octave is
+installed as a standard package (e.g. in /usr), then simply
+
+./configure --with-octave --enable-openmp
+make
+
+should work.
+
+2) Edit nfftpath.m
+
+Open nfftpath.m and set the values of the two variables matlabpath
+and octavepath, as described therein.
+
+3) Run a superfluid simulation
+
+Run sfdrv3 in Matlab or GNU Octave
+
+3.1) Face some possible bugs
+
+In GNU Octave < 4.0.0 the function flip.m was not available. You can find it
+in aux/flip.m. Just copy it it the INFFTM folder.
+
+In GNU Octave 4.0.0 the functions fftshift.m and ifftshift.m do not work
+properly (bug #45207). Just copy the fixed versions from aux to the INFFTM
+folder.
+
+Matlab R2014b has a bug (no.~961694) preventing, form time to time,
+to load the mex interface to NFFT. The workaround is to load the library as soon
+as Matlab is started. This can be achieved, for instance, by running the
+script aux/mlloadnfft.
+
+4) Evaluate and plot the solution
+
+Run evaldrv3 in Matlab or GNU Octave
+
+5) List of MATLAB files (Contents.m)
+
+% INFFTM: a MATLAB code for the evaluation of 3d Fourier series at
+% arbitrary points and for the computation of the solution of the
+% Gross-Pitaevskii equation for superfluids as a 3d Fourier series
+%
+% Drivers and main functions.
+%
+% nfftpath    - Script for selecting NFFT usage.
+% sfdrv3      - Script to perform a 3d superfluids simulation.
+% evaldrv3    - Script to perform fast evaluation at grids or artibrary points.
+% igridftn    - Evaluate nd-array of Fourier coeffs to a rectilinear grid.
+% infft3      - Evaluate 3d-array of Fourier coefficients by NFFT.
+% mkgrid      - Generate a rectilinear grid in the physical domain.
+% ndcovlt     - Compute an n-dimensional linear transform of an nd tensor.
+% plotiso3    - Plot an isosurface of the real 3d input data.
+% sf2psihat   - Extract nd-array of Fourier coefficients from a sf structure.
+% sf4pade     - Compute Pade' [8/8] approximation of a 2d vortex density.
+% sfEm        - Compute mass and energy of a superfluid in the physical domain.
+% sfgpe       - Solve superfluid GPE by time splitting Fourier spectral method.
+% sfic3       - Compute the structure sf for superimposed 3d straight vortices.
+% sfpregpe    - Compute preliminary quantities for a superfluids simulation.
+% sfrun       - Run a complete superfluid simulation.
+% sfsvl3      - Compute psi originating from a single straight 3d vortex.
+% sftubeeval3 - Iteratively generate points such that rho <= rhobar(1:end).
+% sfview3     - Show an isosurface of the density associated to a structure sf.
+%
+% aux         - Folder containing auxiliary functions.
+%
+% Authors:
+% Marco Caliari and Simone Zuccher

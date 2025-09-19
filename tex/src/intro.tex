@@ -1,0 +1,77 @@
+\chapter{Introduction}
+
+\section{Introduction to superfluidity}
+
+The equations of classical fluid dynamics, such as the Navier-Stokes equations, have been known for more than a century. However, the complete understanding of their solutions in a turbulent regime remains one of the most important unsolved problems in classical physics.
+
+Strangely, in the context of quantum mechanics, there exists quantum entities called bosons, as they respond to Bose-Einstein statistics, unlike Fermions, which follows the Fermi-Dirac statistics. At temperatures approaching absolute zero,these exhibit peculiar behaviors, in particular they can occupy the same quantum state, which fermions cannot, due to the Pauli exclusion principle. As a result, when a large number of bosons are cooled, a condensate is formed. This collective behavior gives rise to remarkable phenomena, such as superfluidity.
+
+In this condensed state, the behavior of the superfluid is described by a single wave function, which carries both density and motion information. The dynamical evolution of this function is given by the Schrödinger equation, which, in our case, is called the Gross-Pitaevskii equation (GPE), a nonlinear form of the above equation.
+
+Of course, since it is still a fluid, vorticity phenomena can occur, with the latter evolving by moving and recombining, thus establishing the relationship with classical fluid dynamics. In this framework, numerical simulations play a fundamental role, as the GPE is difficult to solve analytically, especially in the presence of vortices and complex phenomena such as the evolution and recombination of the latter. 
+
+The aim of this thesis is to study in detail an efficient numerical method for the resolution of GPE in the presence of vortices, both from the point of view of numerical analysis and by performing some experiments. 
+
+\newpage
+
+\section{The mathematical context}
+
+In this section we introduce the mathematical model for a superfluid and seek an analytical approximation for the density $\rho$.
+
+We define a \emph{two-dimensional vortex} as a vortex filament embedded in three-dimensional space that possesses cylindrical symmetry. Assuming its axis lies along the $x_3$-direction, the configuration depends only on the coordinates in the orthogonal plane, so that variations are observed exclusively in the $(x_1,x_2)$-plane.
+
+The governing equation for a weakly interacting Bose-Einstein condendate is the \emph{Gross-Pitaevskii equation} (GPE for short)
+
+\begin{equation*}
+    \ii \hbar \pdv{\psi}{t} = -\frac{\hbar^2}{2m}\lap\psi + V_0\abs{\psi}^2 \psi - E_0 \psi
+\end{equation*}
+
+where $\psi = \psi(\rr, t)$ is the complex macroscopic wavefunction for a condensate of $N$ bosons of mass $m$ at position $\rr$ and time $t$. The constant $\hbar$ is the reduced Planck's constant, $V_0$ is the strength of the repulsive interactions between bosons, and $E_0$ is the chemical potential of the system (the energy required to add a boson to the condensate).
+
+The adimensional form of the GPE, which derivation can be found in \cite{CZ12}, is
+
+\begin{equation}
+    \pdv{\psi}{t} = \frac\ii2\lap\psi + \frac\ii2 (1 - \abs{\psi}^2)\psi
+    \label{eq:gpe}
+\end{equation}
+
+Let us introduce the Madelung transformation, writing the wavefunction in polar form
+
+\begin{equation}
+    \psi(\rr, t) = \rho^{1/2}\exp(\ii S)
+    \label{eq:madelung}
+\end{equation}
+
+where $\rho = \rho(\rr, t) = \abs{\psi(\rr, t)}^2$ is the density and $S = S(\rr, t)$ is the phase of $\psi$. The vector field $\uu = \nb S$ can be interpreted as the superfluid velocity field.
+
+\medskip
+
+Substituting \eqref{eq:madelung} into \eqref{eq:gpe} and separating real and imaginary parts, we obtain the following system of equations, written in Einstein notation
+
+\begin{align*}
+    &\pdv{\rho}{t} + \pdv{\rho u_j}{x_j} = 0 \\
+    &\rho \left(\pdv{u_i}{t} + u_j \pdv{u_i}{x_j}\right) = -\pdv{p}{x_i} + \pdv{\tau_{ij}}{x_j}, \quad i = 1,2,3
+\end{align*}
+
+where 
+
+\[
+    p = \frac{\rho^2}{4} \quad \text{and} \quad \tau_{ij} = \frac14 \rho \pdvn{\log \rho}{x_i x_j}{2}
+\]
+
+are the pressure and the quantum stress tensor, respectively. 
+
+These equations resemble the classical Navier-Stokes equations for a barothopic, inviscid fluid, where the volume forces are conservative (in our case they are constantly zero). The main difference is in the stress term, since a quantum fluid is inviscid, and the stress is not proportional to the strain rate tensor, but rather to the second derivatives of the logarithm of the density.
+
+\subsection{Approximation of steady-state vortex}
+
+In a two-dimensional domain we set $\psi(x,y) = \rho\left(\sqrt{x^2 + y^2}\right)\exp\left(\ii \theta(x,y)\right)$, where $\rho(r)$ is a function to be determined. By imposing the non dependence by the time (steady state solution), we obtain that $\rho$ has to satisfy
+
+\begin{equation}
+    \rho'' + \frac{\rho'}{r} + \frac{(\rho')^2}{2\rho} - \frac{2\rho}{r^2} + 2(1 - \rho)\rho = 0
+    \label{eq:density}
+\end{equation}
+
+with boundary conditions $\rho(0) = 0$ and $\rho(\infty) = 1$.
+
+

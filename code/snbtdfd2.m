@@ -1,0 +1,94 @@
+% Neumann Bc truncated domain finite diff 2-nd order
+% stationaL vortex
+
+clear all;
+close all;
+%% space discretization
+tic;
+L = 30;
+Nx = 347;
+Ny = 347;
+hx = 2*L/(Nx - 1);
+hy = 2*L/(Ny - 1);
+
+Dxx = spdiags(ones(Nx,1)*[1, -2, 1]/(hx^2), -1:1, Nx,Nx);
+Dyy = spdiags(ones(Ny,1)*[1, -2, 1]/(hy^2), -1:1, Ny,Ny);
+
+% Homogeneus Neumann conditions 
+Dxx(1,1:2) = [-2,2]/(hx^2);
+Dyy(1,1:2) = [-2,2]/(hy^2);
+Dxx(Nx,Nx-1:Nx) = [2,-2]/(hx^2);
+Dyy(Ny,Ny-1:Ny) = [2,-2]/(hy^2);
+
+epsbd = 1e-8;
+x = linspace(-L, L, Nx)';
+y = linspace(-L, L, Ny)';
+
+[X, Y] = ndgrid(x, y);
+
+%% initial condition
+rhoVortex = rho(X, Y, 0,0);
+phase = atan2(Y,X);
+
+U0 = sqrt(rhoVortex).*exp(1i*phase);
+
+%% time integration
+% Strang time splitting
+tstar = 20;
+L = [-15,15];
+U = U0;
+nt = 450;
+tau = tstar/(nt - 1);
+
+Ex = expm(1i*tau/4*Dxx);
+Ey = expm(1i*tau/4*Dyy);
+
+for k = 1:nt - 1
+    
+    U = Ex*U*Ey.';
+    U = exp(tau*(1i/2)*(1 - abs(U).^2)).*U;
+    U = Ex*U*Ey.';
+
+end
+
+toc;
+
+%% plot 
+load('stepper_cmap.mat', 'CustomColormap');
+color = jet;
+
+lim = 30;
+figure;
+title('Uniform');
+subplot(1,2,1);
+surf(X, Y, abs(U0), 'EdgeColor', 'none');
+colorbar; colormap(color);
+xlabel('X-axis');
+ylabel('Y-axis');
+xlim([-lim,lim]); ylim([-lim,lim]);
+zlabel('Magnitude of \psi_0');
+axis equal tight;
+view(2);
+
+% surface for U(tstar)
+subplot(1,2,2);
+surf(X, Y, abs(U), 'EdgeColor', 'none');
+colorbar; colormap(color);
+xlabel('X-axis');
+ylabel('Y-axis');
+xlim([-lim,lim]); ylim([-lim,lim]);
+zlabel('Magnitude of \psi');
+axis equal tight;
+view(2);
+
+vmin = min([abs(U(:)); abs(U0(:))]);
+vmax = max([abs(U(:)); abs(U0(:))]);
+
+subplot(1,2,1); clim([vmin vmax]);
+subplot(1,2,2); clim([vmin vmax]);
+
+%% save data
+U_ufd = U;
+X_ufd = X;
+Y_ufd = Y;
+save('ufd.mat', 'U_ufd', 'X_ufd', 'Y_ufd');
