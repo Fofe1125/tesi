@@ -61,17 +61,26 @@ where
 
 are the pressure and the quantum stress tensor, respectively. 
 
-These equations resemble the classical Navier-Stokes equations for a barothopic, inviscid fluid, where the volume forces are conservative (in our case they are constantly zero). The main difference is in the stress term, since a quantum fluid is inviscid, and the stress is not proportional to the strain rate tensor, but rather to the second derivatives of the logarithm of the density.
+These equations resemble the classical Navier-Stokes equations for a barothopic, inviscid fluid, where the volume forces are conservative (in our case they are constantly zero). The main difference is in the stress term, since a quantum fluid is inviscid. 
+
+These similarities suggest, in some ways, that the study of quantum vortex dynamics, in particular vortex reconnections, could provide some insights into the classical case.
 
 \subsection{Approximation of steady-state vortex}
 
-In a two-dimensional domain we set $\psi(x,y) = \rho\left(\sqrt{x^2 + y^2}\right)\exp\left(\ii \theta(x,y)\right)$, where $\rho(r)$ is a function to be determined. By imposing the non dependence by the time (steady state solution), we obtain that $\rho$ has to satisfy
+In a two-dimensional domain we set
+
+\[
+    \psi(x,y)=\rho\left(\sqrt{x^2+y^2}\right)\,\exp\left(\mathrm{i}\,\theta(x,y)\right),
+\]
+
+where \(\rho(r)\) is a function to be determined. Requiring time-independence (steady-state solution) leads to the following ordinary differential equation for $\rho$:
 
 \begin{equation}
-    \rho'' + \frac{\rho'}{r} + \frac{(\rho')^2}{2\rho} - \frac{2\rho}{r^2} + 2(1 - \rho)\rho = 0
+    \rho''(r)+\frac{\rho'(r)}{r}+\frac{(\rho'(r))^2}{2\rho(r)}-\frac{2\,\rho(r)}{r^2}+2\bigl(1-\rho(r)\bigr)\rho(r)=0,
     \label{eq:density}
 \end{equation}
 
-with boundary conditions $\rho(0) = 0$ and $\rho(\infty) = 1$.
+with boundary conditions $\rho(0)=0$ and $\rho(\infty)=1$. There are several approaches: one could solve the boundary-value problem directly on a truncated domain and interpolate the solution. In many applications, however, it is convenient to approximate $\rho(r)$ using a Padé approximant of arbitrary order. The Padé approximant used below is of fourth order; its coefficients are reported in \cite{CZ21}.
+
 
 

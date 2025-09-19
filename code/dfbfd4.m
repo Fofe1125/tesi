@@ -14,7 +14,7 @@ antitransform = @(yl) alpha*tan((pi/2)*yl);
 %% space discretization of (-1,1)^2
 
 epsbd = 1e-10;
-my1 = 401; my2 = 401;
+my1 = 101; my2 = 101;
 h = 2/(my1 - 1);
 y1 = linspace(-1 + epsbd,1 - epsbd,my1)';
 y2 = linspace(-1 + epsbd,1 - epsbd,my2)';
@@ -50,7 +50,6 @@ rho2vortex0 = rho(X1, X2, xc, yc).*rho(X1,X2,-xc,-yc);
 phase2vortex0 = atan2(X2 - yc, X1 - xc) + atan2(X2 + yc, X1 + xc);
 
 U0 = sqrt(rho2vortex0).*exp(1i*phase2vortex0);
-
 %% Strang time integration
 
 U = U0;
@@ -59,7 +58,7 @@ U = U0;
 % nt = 450;
 % tau = tstar/(nt - 1);
 tau = 0.1;
-tstar = 20;
+tstar = 80;
 t = 0;
 
 E1 = expm(tau*A1);
@@ -105,21 +104,21 @@ subplot(1,2,2); clim([vmin vmax]);
 %% grid plot
 % Definisci i nodi della griglia
 
-figure;
-hold on;
-
-lim = 50;
-L = [-lim, lim];
-
-% Linee verticali (costanti in x)
-plot(X1', X2', 'k-', 'LineWidth', 0.1);
-
-% Linee orizzontali (costanti in y)
-plot(X1, X2, 'k-', 'LineWidth', 0.1);
-
-xlabel('x'); ylabel('y');
-title('Rotating vortex grid');
-xlim(L);
-ylim(L);
-axis equal;
-hold off;
+% figure;
+% hold on;
+% 
+% lim = 50;
+% L = [-lim, lim];
+% 
+% % Linee verticali (costanti in x)
+% plot(X1', X2', 'k-', 'LineWidth', 0.1);
+% 
+% % Linee orizzontali (costanti in y)
+% plot(X1, X2, 'k-', 'LineWidth', 0.1);
+% 
+% xlabel('x'); ylabel('y');
+% title('Rotating vortex grid');
+% xlim(L);
+% ylim(L);
+% axis equal;
+% hold off;

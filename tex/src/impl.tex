@@ -1,1 +1,80 @@
 \chapter{MATLAB\textsuperscript{\textregistered} implementation}
+
+In this chapter we describe the implementation of the numerical method in MATLAB\textsuperscript{\textregistered}, which was used to perform the experiments described in Chapter \ref{chap:experiments}.
+
+The code is available at the following \href{https://github.com/fofe1125/tesi}{link}. Here we report the main functions and implementation details.
+
+\section{Non uniform grid generation}
+
+The function \texttt{neqdeltagrid0.m} generates a non-uniform grid as described in Section \ref{sb:nufg}. The function takes as input the parameters $\delta$, $h_1$, $L$ and $m$, and returns the grid points in the interval $[0, L]$.
+
+\begin{multicols}{2}
+    \begin{lstlisting}
+
+    % from xc to 0
+    for i = m-1:-1:2
+        h(i) = (1 + delta)*h(i+1);
+        x(i) = x(i+1) - h(i);
+    end
+
+    % from xc to xL
+    i = m + 1;
+    while x(i - 1) < xL
+        h(i) = (1 + delta)*h(i-1);
+        x(i) = x(i-1) + h(i);
+        i = i + 1;
+    end
+
+    % always add 0
+    x = [0, x];
+    h = diff(x);
+
+    % check for the nearest point to 0
+    if numel(x) > 2
+        if h(1) < 0.7*h(2)
+            x(2) = [];
+            h = diff(x);
+        end
+    end
+
+    \end{lstlisting}
+\end{multicols}
+
+We then construct the full grid in $[-L, L]$ by mirroring the points around zero as
+
+\begin{lstlisting}
+x = neqdeltagrid0(xc,Lx, delta, h1);
+x = unique([-flip(x), x]); x = x(:);
+hx = diff(x);
+mx = length(x);
+\end{lstlisting}
+
+Once we have the grid points, we can construct the finite difference matrix as 
+
+
+\begin{lstlisting}
+%% matrix
+dux = 2./(hx(1:mx-2) .* (hx(1:mx-2) + hx(2:mx-1))); % upper diag 
+dmx = -2./(hx(1:mx-2).*hx(2:mx-1));                 % main diag
+dlx = 2./(hx(2:mx-1).*(hx(1:mx-2) + hx(2:mx-1)));   % lower diag
+
+Dxx = spdiags([[dux;0;0], [0; dmx; 0], [0;0;dlx]], -1:1, mx,mx);
+
+% Homogeneus Neumann conditions 
+Dxx(1,1:2) = [-2,2]/(hx(1)^2);
+Dxx(mx,mx-1:mx) = [2,-2]/(hx(mx-1)^2);
+\end{lstlisting}
+
+\section{Time splitting}
+
+We report a brief section of the code used to implement the time integration
+
+\begin{lstlisting}
+for i = 1:nt - 1
+
+    U = Ex*U*Ey.';
+    U = exp(1i*tau/2*(1 - abs(U).^2)).*U;
+    U = Ex*U*Ey.';
+ 
+end
+\end{lstlisting}
