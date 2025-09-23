@@ -9,7 +9,7 @@ load('nfd.mat','U_nfd','X_nfd','Y_nfd');
 load('stepper_cmap.mat', 'CustomColormap');
 color = CustomColormap;
 
-Lx = [0 30]; Ly = [20 30];
+Lx = [7 30]; Ly = [20 30];
 
 figure;
 subplot(1,2,1);

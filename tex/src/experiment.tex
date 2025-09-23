@@ -48,7 +48,15 @@ We directly report the comparison between the uniform and non-uniform grids.
     \caption{Comparison between uniform (left) and non-uniform (right) grids.}
 \end{figure}
 
-We can observe that the solution on the two grids visually differs only near the boundaries of the domain. In the case of the non-uniform grid, the deviation from the initial condition remains smaller.
+We can observe that the solution on the two grids is very similar, showing some slight differences near the boundary of the domain. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/comparison_unfd_zoom_boundary.pdf}
+    \caption{Zoom near the boundary of the domain.}
+\end{figure}
+
+In this zoomed view near the boudary of the domain, we can see that the solution on the non-uniform grid appears to be sligtly less accurate, due to the coarser discratization in that region. However, the differences are minimal, and does not significantly affect the overall quality of the solution.
 
 \begin{figure}[H]
     \centering
@@ -141,6 +149,18 @@ In order to achieve a comparable level of accuracy with a uniform grid, it is ne
     \caption{Grid used for rotating vortex simulation}
     \label{fig:rvortexgrid}
 \end{figure}
+
+\section{Numerical conservation of phiysical quantities}
+
+\subsection{Mass and energy conservation}
+
+Another insight into the quality of the proposed methods can be retrived by analyzing the conservation of physical invariants, such as mass and energy. It can be shown \cite{CZ18} that the time splitting method conserves mass. We employ the definition of mass given in \ref{eq:mass} to compute the mass in the computational domain at each time step, with the trapezoidal quadrature rule, as 
+
+\[
+    m(t_n) \approx h_x h_y \sum_{i=1}^{m_x} \sum_{j=1}^{m_y} \abs{\psi(x_i, y_j, t_n)}^2.
+\]
+
+
 
 
 

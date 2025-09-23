@@ -5,6 +5,11 @@ M.~Caliari.
 \newblock Dispense di metodi numerici per le equazioni differenziali.
 \newblock 2024.
 
+\bibitem{CZ18}
+M.~Caliari and S.~Zuccher.
+\newblock Reliability of the time splitting fourier method for singular solutions in quantum fluids.
+\newblock {\em Computer Physics Communications}, 222:46--58, 2018.
+
 \bibitem{CZ21}
 M.~Caliari and S.~Zuccher.
 \newblock A fast time splitting finite difference approach to gross-pitaevskii equations.

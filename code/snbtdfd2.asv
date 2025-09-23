@@ -34,7 +34,7 @@ U0 = sqrt(rhoVortex).*exp(1i*phase);
 
 %% initial conservation quantities
 
-E0 = energy(U0,x,y);
+E0 = energy(U0,diff(x),diff(y));
 M0 = mass(U0,x,y);
 
 %% time integration
@@ -68,7 +68,7 @@ for k = 1:nt
         err(counter) = max(relative_err(:));
         times(counter) = k*tau;        
 
-        E(counter) = energy(U,x,y);
+        E(counter) = energy(U,diff(x),diff(y));
         M(counter) = mass(U,x,y);
 
         counter = counter + 1;
@@ -96,7 +96,7 @@ save('data/mass_energy_ufd.mat', 'times', 'M', 'E');
 
 %% plot 
 load('stepper_cmap.mat', 'CustomColormap');
-color = CustomColormap;
+color = jet;
 
 lim = 30;
 figure;
@@ -146,7 +146,6 @@ end
 %% total energy function
 function E = energy(Uk,x,y)
     
-    % E = 
     mx = length(x); my = length(y);
     hx = diff(x); hy = diff(y);
     
@@ -156,20 +155,9 @@ function E = energy(Uk,x,y)
     Dx = spdiags([[-dx;0;0] [0;0;dx]], [-1 1], mx,mx);
     Dy = spdiags([[-dy;0;0] [0;0;dy]], [-1 1], my,my);
 
-    Dx(1,1:2) = [-1 1]/hx(1);         
-    Dx(mx,mx-1:mx) = [-1 1]/hx(end); 
+    Ix = speye(mx); Iy = spey
 
-    Dy(1,1:2) = [-1 1]/hy(1);         
-    Dy(my,my-1:my) = [-1 1]/hy(end);    
-
-    Ix = speye(mx); Iy = speye(my);
-
-    Ux = Dx*Uk*Iy; Uy = Ix*Uk*Dy.';
-
-    Elocal = (1/2)*(abs(Ux).^2 + abs(Uy).^2) + (1/4)*(1 - abs(Uk).^2).^2;
-
-    Ex = trapz(x, Elocal, 1);
-    E = trapz(y, Ex, 2);
+    Up = 
 
 end
 

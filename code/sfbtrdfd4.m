@@ -18,8 +18,8 @@ antitransform = @(yl) alpha*tan((pi/2)*yl);
 epsbd = 1e-8;
 my1 = 501; my2 = 501;
 h = 2/(my1 - 1);
-y1 = linspace(-1 + epsbd,1 - epsbd,my1);
-y2 = linspace(-1 + epsbd,1 - epsbd,my2);
+y1 = linspace(-1 + epsbd,1 - epsbd,my1)';
+y2 = linspace(-1 + epsbd,1 - epsbd,my2)';
 
 y1p = 2./(pi*alpha*(tan(pi/2*y1).^2 + 1));
 y2p = 2./(pi*alpha*(tan(pi/2*y2).^2 + 1));

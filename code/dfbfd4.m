@@ -5,7 +5,7 @@ close all;
 
 %% space rescalation
 % xl -> 2/pi*atan(xl/alphal)
-alpha = 10;
+alpha = 20;
 
 % define transformation and inverse
 transform = @(xl) (2/pi)*atan(xl/alpha);
@@ -14,18 +14,14 @@ antitransform = @(yl) alpha*tan((pi/2)*yl);
 %% space discretization of (-1,1)^2
 
 epsbd = 1e-10;
-my1 = 101; my2 = 101;
-h = 2/(my1 - 1);
+my1 = 455; my2 = 455;
+h1 = 2/(my1 - 1); h2 = 2/(my2 - 1);
 y1 = linspace(-1 + epsbd,1 - epsbd,my1)';
 y2 = linspace(-1 + epsbd,1 - epsbd,my2)';
 
 x1 = antitransform(y1);
 x2 = antitransform(y2);
 
-% y1p = 2*alpha./(pi*(x1).^2 + alpha^2);
-% y2p = 2*alpha./(pi*(x2).^2 + alpha^2);
-% y1pp = -(4*alpha*y1)./(pi*(x1.^2+alpha.^2).^2);
-% y2pp = -(4*alpha*y2)./(pi*(x2.^2+alpha.^2).^2);
 y1p = 2./(pi*alpha*(tan(pi/2*y1).^2 + 1));
 y2p = 2./(pi*alpha*(tan(pi/2*y2).^2 + 1));
 y1pp = -(4*tan(pi/2*y1))./(pi*alpha^2*(tan(pi/2*y1).^2 + 1).^2);
@@ -34,11 +30,13 @@ y2pp = -(4*tan(pi/2*y2))./(pi*alpha^2*(tan(pi/2*y2).^2 + 1).^2);
 [Y1,Y2] = ndgrid(y1,y2);
 
 % laplacian in mapped space
-[Dx, Dxx] = buildMatrix(my1, h);
-A1 = 1i/2*(spdiags(y1p.^2, 0, my1, my1)*Dxx) + ...
-    1i/2*(spdiags(y1pp, 0, my1, my1)*Dx);
-A2 = 1i/2*(spdiags(y2p.^2, 0, my2, my2)*Dxx) + ...
-    1i/2*(spdiags(y2pp, 0, my2, my2)*Dx);
+[Dx1, Dxx1] = buildMatrix(my1, h1);
+[Dx2, Dxx2] = buildMatrix(my2, h2);
+
+A1 = 1i/2*(spdiags(y1p.^2, 0, my1, my1)*Dxx1) + ...
+    1i/2*(spdiags(y1pp, 0, my1, my1)*Dx1);
+A2 = 1i/2*(spdiags(y2p.^2, 0, my2, my2)*Dxx2) + ...
+    1i/2*(spdiags(y2pp, 0, my2, my2)*Dx2);
 
 %% vortex 
 X1 = antitransform(Y1); X2 = antitransform(Y2);
@@ -58,11 +56,21 @@ U = U0;
 % nt = 450;
 % tau = tstar/(nt - 1);
 tau = 0.1;
-tstar = 80;
+tstar = 20;
 t = 0;
 
 E1 = expm(tau*A1);
 E2 = expm(tau*A2);
+
+% lim = 10;
+% L = [-lim, lim];
+% 
+% figure(1);
+% view(2);
+% surf(X1,X2,abs(U), 'EdgeColor','none');
+% colorbar; colormap("jet");
+% xlim(L); ylim(L);
+% title('sol');
 
 % for k = 1:nt - 1
 while t < tstar
@@ -71,6 +79,14 @@ while t < tstar
     U = exp(tau*(1i/2)*(1 - abs(U).^2)).*U;
     U = E1*U*E2.';
     t = t + tau;
+
+    set(figure(1), 'CurrentAxes', gca);
+    surf(X1, X2, abs(U), 'EdgeColor', 'none');
+    colorbar; colormap("jet");
+    xlim(L); ylim(L);
+    title('sol');
+    view(2);
+    drawnow;
  
 end
 
@@ -81,7 +97,6 @@ load('stepper_cmap.mat', 'CustomColormap');
 
 lim = 10;
 L = [-lim, lim];
-
 subplot(1,2,1);
 surf(X1,X2,abs(U), 'EdgeColor','none');
 colorbar; colormap(CustomColormap);
@@ -101,24 +116,25 @@ vmax = max([abs(U(:)); abs(U0(:))]);
 
 subplot(1,2,1); clim([vmin vmax]);
 subplot(1,2,2); clim([vmin vmax]);
+
 %% grid plot
 % Definisci i nodi della griglia
 
-% figure;
-% hold on;
-% 
-% lim = 50;
-% L = [-lim, lim];
-% 
-% % Linee verticali (costanti in x)
-% plot(X1', X2', 'k-', 'LineWidth', 0.1);
-% 
-% % Linee orizzontali (costanti in y)
-% plot(X1, X2, 'k-', 'LineWidth', 0.1);
-% 
-% xlabel('x'); ylabel('y');
-% title('Rotating vortex grid');
-% xlim(L);
-% ylim(L);
-% axis equal;
-% hold off;
+figure;
+hold on;
+
+lim = 20;
+L = [-lim, lim];
+
+% Linee verticali (costanti in x)
+plot(X1', X2', 'k-', 'LineWidth', 0.1);
+
+% Linee orizzontali (costanti in y)
+plot(X1, X2, 'k-', 'LineWidth', 0.1);
+
+xlabel('x'); ylabel('y');
+title('Rotating vortex grid');
+xlim(L);
+ylim(L);
+axis equal;
+hold off;

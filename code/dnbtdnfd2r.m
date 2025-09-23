@@ -61,7 +61,7 @@ view(2);
 
 %% Strang time splitting integration
 tau = 0.1;
-nt = 36/tau;
+nt = 20/tau;
 
 Ex = expm(1i*tau/4*Dxx);
 Ey = expm(1i*tau/4*Dyy);
@@ -73,7 +73,7 @@ k = 0;
 
 tic;
 
-while t < 36
+while t < 20
 
     k = k + 1;
 
@@ -82,26 +82,26 @@ while t < 36
     U = Ex*U*Ey.';
     t = t + tau;
 
-    if mod(k,round(nt/10))==0 % Plot ogni 1/10 dei passi totali
-        fprintf('step %d / %d, max|U-U_prev| = %.3e\n', k, nt-1, max(abs(U(:) - U0(:))));
-        
-        figure(3); % Usa una nuova figura per l'animazione o sovrapposizioni
-        subplot(1,2,1);
-        surf(X,Y,abs(U), 'EdgeColor','none');
-        colorbar; colormap('jet');
-        xlim(L); ylim(L);
-        title(sprintf('Ampiezza |U| a t = %.2f', k*tau));
-        view(2);
-        
-        subplot(1,2,2);
-        surf(X,Y,angle(U), 'EdgeColor','none');
-        colorbar; colormap('jet');
-        xlim(L); ylim(L);
-        title(sprintf('Fase angle(U) a t = %.2f', k*tau));
-        view(2);
-        
-        drawnow; % Aggiorna la figura per mostrare l'animazione
-    end
+    % if mod(k,round(nt/10))==0 % Plot ogni 1/10 dei passi totali
+    %     fprintf('step %d / %d, max|U-U_prev| = %.3e\n', k, nt-1, max(abs(U(:) - U0(:))));
+    % 
+    %     figure(3); % Usa una nuova figura per l'animazione o sovrapposizioni
+    %     subplot(1,2,1);
+    %     surf(X,Y,abs(U), 'EdgeColor','none');
+    %     colorbar; colormap('jet');
+    %     xlim(L); ylim(L);
+    %     title(sprintf('Ampiezza |U| a t = %.2f', k*tau));
+    %     view(2);
+    % 
+    %     subplot(1,2,2);
+    %     surf(X,Y,angle(U), 'EdgeColor','none');
+    %     colorbar; colormap('jet');
+    %     xlim(L); ylim(L);
+    %     title(sprintf('Fase angle(U) a t = %.2f', k*tau));
+    %     view(2);
+    % 
+    %     drawnow; % Aggiorna la figura per mostrare l'animazione
+    % end
 
 end
 
@@ -147,4 +147,4 @@ hold off;
 
 
 %% save
-save('data/rotating_nfd.mat', 'U', 'X', 'Y');
+save('data/fd2final.mat', 'U', 'X', 'Y');

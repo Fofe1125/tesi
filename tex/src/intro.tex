@@ -65,7 +65,42 @@ These equations resemble the classical Navier-Stokes equations for a barothopic,
 
 These similarities suggest, in some ways, that the study of quantum vortex dynamics, in particular vortex reconnections, could provide some insights into the classical case.
 
-\subsection{Approximation of steady-state vortex}
+\section{Properties of the solution}
+
+The GPE has several conserved quantities, which can be derived from its Hamiltonian structure. The most important ones are the mass, the momentum and the energy.
+
+We refer to $\bar{\psi}$ as the complex conjugate of $\psi$.
+
+\subsection{Mass}
+The mass in a bounded domain $\Omega$ is defined as
+
+\begin{equation}
+    m_\Omega(t) = \int_\Omega \abs{\psi}^2 \dd V
+    \label{eq:mass}
+\end{equation}
+
+The derivative with respect to time, which derivation can be found in \cite{CZ21}, is
+
+\[m_\Omega'(t) = \Im\left[ \int_{\partial \Omega} \psi\left(\nabla \bar{\psi} \cdot \hat{\mathbf{n}}\right) \dd S \right] \] 
+
+We notice that if $\nabla\psi \cdot \hat{\mathbf{n}} = 0$ on the boundary $\partial \Omega$, then $m_\Omega'(t) = 0$, so that the mass is conserved.
+
+\subsection{Energy}
+
+The energy in a bounded domain $\Omega$ is defined as
+
+\begin{equation}
+    E_\Omega(t) = \int_\Omega \left( \frac12 \abs{\nabla \psi}^2 + \frac14 (1 - \abs{\psi}^2)^2 \right) \dd V
+    \label{eq:energy}
+\end{equation}
+
+The derivative with respect to time, which derivation can also be found in \cite{CZ21}, is
+
+\[E_\Omega'(t) = \Im\left[\frac12 \int_{\partial \Omega} \left(\nabla^2 \bar{\psi} + (1 - \abs{\psi}^2)\bar{\psi} \right)\nabla\psi \cdot \hat{\mathbf{n}} \,\dd S \right] \]
+
+Again, if $\nabla\psi \cdot \hat{\mathbf{n}} = 0$ on the boundary $\partial \Omega$, then $E_\Omega'(t) = 0$.
+
+\section{Approximation of steady-state vortex}
 
 In a two-dimensional domain we set
 
