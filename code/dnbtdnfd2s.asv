@@ -51,7 +51,7 @@ U0 = sqrt(rho2vortex).*exp(1i*phase2vortex);
 
 %% Strang time splitting integration
 tstar = 30;
-nt = 1500; 
+nt = 1850; 
 tau = tstar/nt;
 
 Ex = expm(1i*tau/4*Dxx);
@@ -91,7 +91,7 @@ view(2);
 subplot(1,3,3);
 surf(X, Y, abs(U), 'EdgeColor', 'none');
 colorbar; colormap('jet');
-title('Magnitude of \psi_{30}');
+title('Magnitude of \psi_{30');
 xlim([-Lx,Lx]); ylim([-Ly,Ly]);
 view(2);
 

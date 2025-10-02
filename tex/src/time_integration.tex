@@ -153,13 +153,13 @@ In the case of GPE, we have $A = \frac\ii2 \lap$ and $B = \frac\ii2 \left(1 - \a
     \uu_{n+1} &= \exp\left(\frac{\tau\ii}{2} \lap\right) \tilde{\uu}_{n+1}
 \end{align*}
 
-For $B$ we directly approximate the solution. The treatment for the first is more delicate: since in fact the Laplacian operator is approximated by the formula \ref{eq:lapprox}, we need to compute the matrix-vector product 
+For $B$ we directly compute the exact solution. The treatment for the Laplacian operator is more delicate: since in fact the latter is approximated by the formula \ref{eq:lapprox}, we need to compute the matrix-vector product 
 
 \[
     \exp\left(\frac\tau2 \left(I^y \kron D_2^x + D_2^y \kron I^x\right)\right)\uu_n
 \]
 
-which turns out to be a full matrix-vector product of large dimension, leading to a huge memory requirement and, consequently, to an unreasonable computational time. Our goal would be avoiding the construction of any Kroneker product; instead we directly compute the action of the latter on the vector $\uu$. First we notice that $I^y \kron D_2^x$ and $D_2^y \kron I^x$ commute, as trivial consequence of the formula \ref{prop:prod}. This implies that 
+which turns out to be a full matrix-vector product of large dimension, leading to a huge memory requirement and, consequently, to an unreasonable computational time. Our goal would be avoiding the construction of any Kronecker product; instead we directly compute the action of the latter on the vector $\uu$. First we notice that $I^y \kron D_2^x$ and $D_2^y \kron I^x$ commute, as trivial consequence of the formula \ref{prop:prod}. This implies that 
 
 \[ \exp\left(I^y \kron D_2^x + D_2^y \kron I^x\right) = \exp\left(I^y \kron D_2^x\right)\exp\left(D_2^y \kron I^x\right) \]
 
@@ -171,9 +171,9 @@ and the same for the other. Using again the formula \ref{prop:prod}, we obtain
 
 \[ \exp\left(I^y \kron D_2^x + D_2^y \kron I^x\right)\uu = \left(\exp\left(D_2^y\right) \kron \exp\left(D_2^x\right)\right)\uu \]
 
-This is way better than directly compute the full exponential of Kroneker product, but it still requires the computation of a large full matrix. This can be avoided, since we can take into account the matrix $U = (u_{i,j}) \in \C^{m_x \times m_y}$, with the relation $U_{i,j} = \uu_{i + m_x(j - 1)}$, also denoted with $\mbox{vec}(U) = \uu$. Let now $E_x = \exp\left(\tau D_2^x\right)$ and $E_y = \exp\left(\tau D_2^y\right)$. Thanks to \ref{prop:tensorprod}, we have that 
+This is way better than directly compute the full exponential of Kronecker product, but it still requires the computation of a large full matrix. This can be avoided, since we can take into account the matrix $U = (u_{i,j}) \in \C^{m_x \times m_y}$, with the relation $U_{i,j} = \uu_{i + m_x(j - 1)}$, also denoted with $\mbox{vec}(U) = \uu$. Let now $E_x = \exp\left(\tau D_2^x\right)$ and $E_y = \exp\left(\tau D_2^y\right)$. Thanks to \ref{prop:tensorprod}, we have that 
 
 \[\left(\exp\left(D_2^y\right) \kron \exp\left(D_2^x\right)\right)\uu = \mathrm{vec}\left(E_x \, U \, E_y^T\right)\]
 
-This result is way better than the previous one, as now we only have to compute two matrix-matrix products.
+This result is way better than the previous one, as now we only have to compute two small matrix exponential and two matrix-matrix products.
 

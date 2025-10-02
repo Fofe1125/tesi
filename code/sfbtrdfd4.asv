@@ -66,8 +66,8 @@ times = NaN(floor(nt/10),1);
 counter = 1;
 
 tol = 1e-8;
-R = sqrt(X1.^2 + X2.^2);
-mask = abs(U0) > tol && R < 10;
+R = sqrt(X1.^2 + X2)
+mask = abs(U0) > tol;
 
 for k = 1:nt - 1
     

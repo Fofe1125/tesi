@@ -43,6 +43,9 @@ Dyy = spdiags([[duyy;0;0], [0;dmyy;0], [0;0;dlyy]], -1:1, my, my);
 Dxx(1,1:2) = [-2 2]/(hx(1)^2); Dxx(mx,mx-1:mx) = [2 -2]/(hx(mx-1)^2);
 Dyy(1,1:2) = [-2 2]/(hy(1)^2); Dyy(my,my-1:my) = [2 -2]/(hy(my-1)^2);
 
+%% save grid
+save('data/grid_nfd.mat', 'X', 'Y');
+
 %% initial condition
 rhoVortex = rho(X, Y, 0,0);
 phase = atan2(Y,X);
@@ -50,14 +53,12 @@ phase = atan2(Y,X);
 U0 = sqrt(rhoVortex).*exp(1i*phase);
 U = U0;
 
-%% initial conservation quantities
-
-E0 = energy(U0,x,y);
+%% mass conservation
 M0 = mass(U0,x,y);
 
 %% time integration
-tstar = 10;
-nt = 500;
+tstar = 20;
+nt = 450;
 tau = tstar/(nt - 1);
 disp(['tau = ', num2str(tau)]);
 
@@ -82,8 +83,7 @@ for k = 1:nt
         relative_err = abs(U(mask) - U0(mask)) ./ abs(U0(mask));
         err(counter) = max(relative_err(:));
         times(counter) = k*tau;
-    
-        E(counter) = energy(U,x,y);
+
         M(counter) = mass(U,x,y);
 
         counter = counter + 1;
@@ -93,20 +93,13 @@ end
 
 toc;
 
-%% relative error -- energy and mass
+%% relative error -- mass (L2 norm)
 figure;
-subplot(1,2,1);
-
-E_rel_err = abs((E - E0))/E0;
-semilogy(times, E_rel_err, 'bd--');
-xlabel('t'); ylabel('Energy relative error');
-
-subplot(1,2,2);
 M_rel_err = abs((M - M0))/M0;
-semilogy(times, M_rel_err, 'r^--');
+semilogy(times, M_rel_err, 'bd--');
 xlabel('t'); ylabel('Mass relative error');
 
-save('data/mass_energy_nfd.mat', 'times', 'M', 'E');
+save('data/mass_energy_nfd.mat', 'times', 'M');
 
 %% plot 
 load('stepper_cmap.mat', 'CustomColormap');
@@ -151,36 +144,5 @@ function M = mass(Uk,x,y)
 
     Mx = trapz(x,abs(Uk).^2,1);
     M = trapz(y,Mx,2);
-
-end
-
-
-%% total energy function
-function E = energy(Uk,x,y)
-    
-    % E = 
-    mx = length(x); my = length(y);
-    hx = diff(x); hy = diff(y);
-    
-    dx = 1./(hx(1:mx-2) + hx(2:mx-1));
-    dy = 1./(hy(1:my-2) + hy(2:my-1));
-
-    Dx = spdiags([[-dx;0;0] [0;0;dx]], [-1 1], mx,mx);
-    Dy = spdiags([[-dy;0;0] [0;0;dy]], [-1 1], my,my);
-
-    Dx(1,1:2) = [-1 1]/hx(1);         
-    Dx(mx,mx-1:mx) = [-1 1]/hx(end); 
-
-    Dy(1,1:2) = [-1 1]/hy(1);         
-    Dy(my,my-1:my) = [-1 1]/hy(end);    
-
-    Ix = speye(mx); Iy = speye(my);
-
-    Ux = Dx*Uk*Iy; Uy = Ix*Uk*Dy.';
-
-    Elocal = (1/2)*(abs(Ux).^2 + abs(Uy).^2) + (1/4)*(1 - abs(Uk).^2).^2;
-
-    Ex = trapz(x, Elocal, 1);
-    E = trapz(y, Ex, 2);
 
 end

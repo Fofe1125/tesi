@@ -1,10 +1,10 @@
 \chapter{MATLAB\textsuperscript{\textregistered} implementation}
 
-In this chapter we describe the implementation of the numerical method in MATLAB\textsuperscript{\textregistered}, which was used to perform the experiments described in Chapter \ref{chap:experiments}.
+In this appendix, we breifly report the implementation of the main function used during the simulations in Chapter \ref{chap:experiments} in MATLAB\textsuperscript{\textregistered}.
 
-The code is available at the following \href{https://github.com/fofe1125/tesi}{link}. Here we report the main functions and implementation details.
+The full code is available at the following \href{https://github.com/fofe1125/tesi}{link}\footnote{https://github.com/fofe1125/tesi}. Here we report the main functions and implementation details.
 
-\section{Non uniform grid generation}
+\section*{Non uniform grid generation}
 
 The function \texttt{neqdeltagrid0.m} generates a non-uniform grid as described in Section \ref{sb:nufg}. The function takes as input the parameters $\delta$, $h_1$, $L$ and $m$, and returns the grid points in the interval $[0, L]$.
 
@@ -65,7 +65,7 @@ Dxx(1,1:2) = [-2,2]/(hx(1)^2);
 Dxx(mx,mx-1:mx) = [2,-2]/(hx(mx-1)^2);
 \end{lstlisting}
 
-\section{Time splitting}
+\section*{Time splitting}
 
 We report a brief section of the code used to implement the time integration
 

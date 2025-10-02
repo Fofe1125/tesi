@@ -3,9 +3,11 @@
 
 \section{Stationary vortex preservation over long time integration}
 
-The first numerical experiment we consider concerns the preservation of the steady-state solution of \ref{eq:gpe}. Since this solution is stationary, a natural way to assess the quality of our numerical method is to examine how much the approximate solution deviates from the initial one over long integration times.
+The first numerical experiment we consider concerns the preservation of the steady-state solution of \eqref{eq:gpe}. Since this solution is stationary, a natural way to assess the quality of our numerical method is to examine how much the approximate solution deviates from the initial one over long integration times.
 
-In all the following experiments, we approximate the density $\rho$ by a 4-th order Padé approximation of the equation \ref{eq:density}
+In all the following experiments, we approximate the density $\rho$ by a 4-th order Padé approximation of the equation \eqref{eq:density}
+
+From now on, the notation $\psi_t$ denotes the numerical solution at time $t > 0$.
 
 \subsection{Uniform grid}
 
@@ -14,7 +16,7 @@ We now present some results from the performed experiments. The parameters used 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/ltufd20t347s30L.pdf}
-    \caption{$\abs{\psi_0}$ (left) and $\abs{\psi(20)}$ (right), finite differences on a uniform grid.}
+    \caption{$\abs{\psi_0}$ (left) and $\abs{\psi_{20}}$ (right), finite differences on a uniform grid.}
 \end{figure}
 
 In this figure, we can observe that the numerical solution integrated up to $t = 20$ shows slight variations in the norm outside the vortex core. To highlight this difference more clearly, we employ an alternative colormap with a steeper gradient for values close to $1$:
@@ -25,7 +27,7 @@ In this figure, we can observe that the numerical solution integrated up to $t =
     \caption{Initial solution (left), solution at time $t = 20$ (right)}
 \end{figure}
 
-We observe that the variations in the norm are localized near the limit of the domain, outside the vortex core. To highlight this, Figure~\ref{fig:vortex_center} shows the truncated domain $[-5,5]$, emphasizing the vortex center.
+We observe that the variations in the norm are localized near the boundaries of the domain, outside the vortex core. To highlight this, Figure~\ref{fig:vortex_center} shows the truncated domain $[-5,5]$, emphasizing the vortex center.
 
 \begin{figure}[H]
     \centering
@@ -38,7 +40,7 @@ From this figure, we can see that no visually appreciable variations occur near 
 
 \subsection{Non-uniform grid}
 
-We now consider a non-uniformly spaced grid as described in \ref{sb:nufg}, with $\delta = h_1 = 1/50$. This results in a grid composed of 347 points per direction.
+We now consider a non-uniformly spaced grid as described in Section \ref{sb:nufg}, with $\delta = h_1 = 1/50$. This results in a grid composed of 347 points per direction.
 
 We directly report the comparison between the uniform and non-uniform grids.
 
@@ -64,6 +66,12 @@ In this zoomed view near the boudary of the domain, we can see that the solution
     \caption{Zoom near the center of the domain.}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/grid_comp_static.pdf}
+    \caption{Grid comparison}
+\end{figure}
+
 Zooming into the center of the domain, again, no significant differences are observed. However, the refinement of the grid towards the origin in the non-uniform construction is clearly visible.
 
 \section{Simulations of two straight vortices}
@@ -83,7 +91,7 @@ All the following experiments have been carried out under the assumption of symm
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/str_01030_3.pdf}
-    \caption{Comparison between $\psi_0$ (left), $\psi_{10}$ (center), and $\psi_{30}$ (right), for $x_c = 3$.}
+    \caption{Comparison between $\abs{\psi_0}$ (left), $\abs{\psi_{10}}$ (center), and $\abs{\psi_{30}}$ (right), for $x_c = 3$, $m_x = 259$, $m_y = 201$, and number of time steps $n_t = 1500$.}
 \end{figure}
 
 With this configuration, the vortices appear to march steadily towards the lateral boundaries of the computational domain. This drift is a direct consequence of the imposed counter-rotation, which breaks the otherwise stationary balance. In the following figure we can appreciate how the translation speed depends strongly on the initial separation between the vortex centers.
@@ -94,17 +102,18 @@ With this configuration, the vortices appear to march steadily towards the later
     \caption{Solutions at time $t = 30$ for $x_c = 2, 3,$ and $5$.}
 \end{figure}
 
-All simulations reported here were performed on a nonuniform grid along the $x$-direction, reported in \ref{fig:mvortexgrid} with the spacing defined in \ref{sb:nufg}, while in the $y$-direction equispaced nodes were employed. This choice of discretization allows one to concentrate grid resolution where the vortex dynamics are more intense, without excessively increasing the overall computational cost.
+All simulations reported here were performed on a nonuniform grid along the $x$-direction, reported in \autoref{fig:mvortexgrid} with the spacing defined in Section \ref{sb:nufg}, while in the $y$-direction equispaced nodes were employed. This choice of discretization allows one to concentrate grid resolution where the vortex dynamics are more intense, without excessively increasing the overall computational cost.
 
 \section{Simulation of two rotating vortex}
+We now consider the case of two vortices with the same rotation direction, which results in a rotation of the vortex pair around their center of mass.
 
-We now employ the initial condition given by 
+The initial condition is given by 
 
 \[
     \psi_0 = \sqrt{\rho_1 \rho_2}\exp\left(\ii (S_1 - S_2)\right),
 \] 
 
-with $\rho_1 = \rho(x - x_{c_1}, y - y_{c_1})$ and $S_1 = \mathrm{atan2}(y - y_{c_1}, x - x_{c_1})$, while $\rho_2 = \rho(x - x_{c_2}, y - y_{c_2})$ and $S_2 = -\mathrm{atan2}(y - y_{c_2}, x - x_{c_2})$.
+with $\rho_1 = \rho(x - x_{c_1}, y - y_{c_1})$ and $S_1 = \mathrm{atan2}(y - y_{c_1}, x - x_{c_1})$, while $\rho_2 = \rho(x - x_{c_2}, y - y_{c_2})$ and $S_2 = \mathrm{atan2}(y - y_{c_2}, x - x_{c_2})$.
 
 \begin{figure}[H]
     \centering
@@ -149,16 +158,6 @@ In order to achieve a comparable level of accuracy with a uniform grid, it is ne
     \caption{Grid used for rotating vortex simulation}
     \label{fig:rvortexgrid}
 \end{figure}
-
-\section{Numerical conservation of phiysical quantities}
-
-\subsection{Mass and energy conservation}
-
-Another insight into the quality of the proposed methods can be retrived by analyzing the conservation of physical invariants, such as mass and energy. It can be shown \cite{CZ18} that the time splitting method conserves mass. We employ the definition of mass given in \ref{eq:mass} to compute the mass in the computational domain at each time step, with the trapezoidal quadrature rule, as 
-
-\[
-    m(t_n) \approx h_x h_y \sum_{i=1}^{m_x} \sum_{j=1}^{m_y} \abs{\psi(x_i, y_j, t_n)}^2.
-\]
 
 
 

@@ -2,25 +2,25 @@
 
 \section{Introduction to superfluidity}
 
-The equations of classical fluid dynamics, such as the Navier-Stokes equations, have been known for more than a century. However, the complete understanding of their solutions in a turbulent regime remains one of the most important unsolved problems in classical physics.
+The equations of classical fluid dynamics, such as the Navier-Stokes equations, have been known for more than a century. However, the complete understanding of their solutions in a turbulent regime remains one of the most important unsolved problems in classical physics; in particular the statistical and geometric structure of turbulence is still a major topic of current research (see e.g.\ Frisch's review of Kolmogorov theory \cite{frisch1995turbulence}).
 
-Strangely, in the context of quantum mechanics, there exists quantum entities called bosons, as they respond to Bose-Einstein statistics, unlike Fermions, which follows the Fermi-Dirac statistics. At temperatures approaching absolute zero,these exhibit peculiar behaviors, in particular they can occupy the same quantum state, which fermions cannot, due to the Pauli exclusion principle. As a result, when a large number of bosons are cooled, a condensate is formed. This collective behavior gives rise to remarkable phenomena, such as superfluidity.
+With that said, an apparently unrelated topic is quantum mechanics. Bosons are quantum entities that can simultaneusly occupy the same state, unlike fermions because of the Pauli exclusion principle. When a large number of bosons are cooled to temperatures near absolute zero, an intriguing phenomenon occurs: a condensate forms and superfluidity emerges as a macroscopic, coherent quantum state \cite{pitaevskii2016bose}. In such a state, virtually all particles occupy the same quantum state, allowing flow without viscosity and with quantized vortices.
 
-In this condensed state, the behavior of the superfluid is described by a single wave function, which carries both density and motion information. The dynamical evolution of this function is given by the Schrödinger equation, which, in our case, is called the Gross-Pitaevskii equation (GPE), a nonlinear form of the above equation.
+The superfluid can be described by a single macroscopic wave function, which encodes both density and phase (thus velocity) information. Its time evolution is governed by the Gross-Pitaevskii equation (GPE for short), a nonlinear Schrödinger-type equation that accounts for interactions among particles \cite{gross1961structure,pitaevskii1961vortex}. Unlike linear Schrödinger evolution, the nonlinearity in GPE allows phenomena such as vortex cores-regions of near-zero density-around which circulation is quantized.
 
-Of course, since it is still a fluid, vorticity phenomena can occur, with the latter evolving by moving and recombining, thus establishing the relationship with classical fluid dynamics. In this framework, numerical simulations play a fundamental role, as the GPE is difficult to solve analytically, especially in the presence of vortices and complex phenomena such as the evolution and recombination of the latter. 
+Despite its quantum nature, the superfluid often exhibits behavior that parallels classical fluid phenomena: quantized vortices move, interact, and can even reconnect, producing structures reminiscent of vortex filaments in classical turbulence \cite{fetter2009rotating}. 
 
-The aim of this thesis is to study in detail an efficient numerical method for the resolution of GPE in the presence of vortices, both from the point of view of numerical analysis and by performing some experiments. 
+These events though, makes the GPE analitically almost intractable, especially in the presence of multiple vortices or reconnection events. Therefore, it has been widely studied through numerical simulations, (\cite{CZ12,CZ18,CZ21} as just a few examples). 
+
+The aim of this thesis is, therefore, to study in detail an efficient numerical method for solving the GPE in the presence of straight vortices, both from the perspective of numerical analysis and via computational experiments illustrating some examples of straight vortex dynamics. We will employ a time-splitting method combined with finite differences on both uniform and nonuniform grid, which allows for high spatial resolution near the vortex core while keeping the computational cost manageable.
 
 \newpage
 
 \section{The mathematical context}
 
-In this section we introduce the mathematical model for a superfluid and seek an analytical approximation for the density $\rho$.
+\subsection{The Gross-Pitaevskii equation}
 
-We define a \emph{two-dimensional vortex} as a vortex filament embedded in three-dimensional space that possesses cylindrical symmetry. Assuming its axis lies along the $x_3$-direction, the configuration depends only on the coordinates in the orthogonal plane, so that variations are observed exclusively in the $(x_1,x_2)$-plane.
-
-The governing equation for a weakly interacting Bose-Einstein condendate is the \emph{Gross-Pitaevskii equation} (GPE for short)
+The governing equation for a weakly interacting Bose-Einstein condendate is, as mentioned before, the \emph{Gross-Pitaevskii equation}
 
 \begin{equation*}
     \ii \hbar \pdv{\psi}{t} = -\frac{\hbar^2}{2m}\lap\psi + V_0\abs{\psi}^2 \psi - E_0 \psi
@@ -35,7 +35,13 @@ The adimensional form of the GPE, which derivation can be found in \cite{CZ12}, 
     \label{eq:gpe}
 \end{equation}
 
-Let us introduce the Madelung transformation, writing the wavefunction in polar form
+\subsection{Classical analogy via the Madelung transformation}
+
+To give an idea of the analogy with classical fluid mechanics, as previously mentioned, we will give a brief overview of how the GPE can be rearranged to obtain a system of equations that closely resembles the Navier-Stokes equations for an inviscid and incompressible fluid.
+
+\medskip
+
+This is achieved through the \emph{Madelung transformation} \cite{madelung1927quantentheorie}, which expresses the complex wavefunction $\psi$ in terms of a real-valued density $\rho$ and a phase $S$ as follows:
 
 \begin{equation}
     \psi(\rr, t) = \rho^{1/2}\exp(\ii S)
@@ -46,7 +52,7 @@ where $\rho = \rho(\rr, t) = \abs{\psi(\rr, t)}^2$ is the density and $S = S(\rr
 
 \medskip
 
-Substituting \eqref{eq:madelung} into \eqref{eq:gpe} and separating real and imaginary parts, we obtain the following system of equations, written in Einstein notation
+Substituting \eqref{eq:madelung} into \eqref{eq:gpe} and separating real and imaginary parts, after some straightforward algebra \cite{CZ12}, we obtain the following system of equations, written in tensorial notation
 
 \begin{align*}
     &\pdv{\rho}{t} + \pdv{\rho u_j}{x_j} = 0 \\
@@ -59,63 +65,31 @@ where
     p = \frac{\rho^2}{4} \quad \text{and} \quad \tau_{ij} = \frac14 \rho \pdvn{\log \rho}{x_i x_j}{2}
 \]
 
-are the pressure and the quantum stress tensor, respectively. 
+are the pressure and the quantum stress tensor, respectively.
 
-These equations resemble the classical Navier-Stokes equations for a barothopic, inviscid fluid, where the volume forces are conservative (in our case they are constantly zero). The main difference is in the stress term, since a quantum fluid is inviscid. 
+We can clearly recognize the mass continuity equation in the first equation, being formally identical to its classical counterpart. Differences begin to emerge in the second equation, which essentially expresses the conservation of momentum.
 
-These similarities suggest, in some ways, that the study of quantum vortex dynamics, in particular vortex reconnections, could provide some insights into the classical case.
+The quantum fluid is inherently \emph{inviscid}. Unlike the viscous stress tensor $d_{ij}$ \cite{noteZ} present in the Navier-Stokes equations, which is proportional to the velocity gradient and dissipates kinetik energy through friction, while the \emph{quantum stress tensor $\tau_{ij}$} introduces no dissipation. Instead, this term redistrubuate the energy within the system\cite{Tanogami2021}, notably stabilizing the near-zero density structure of the vortex core.
 
-\section{Properties of the solution}
-
-The GPE has several conserved quantities, which can be derived from its Hamiltonian structure. The most important ones are the mass, the momentum and the energy.
-
-We refer to $\bar{\psi}$ as the complex conjugate of $\psi$.
-
-\subsection{Mass}
-The mass in a bounded domain $\Omega$ is defined as
-
-\begin{equation}
-    m_\Omega(t) = \int_\Omega \abs{\psi}^2 \dd V
-    \label{eq:mass}
-\end{equation}
-
-The derivative with respect to time, which derivation can be found in \cite{CZ21}, is
-
-\[m_\Omega'(t) = \Im\left[ \int_{\partial \Omega} \psi\left(\nabla \bar{\psi} \cdot \hat{\mathbf{n}}\right) \dd S \right] \] 
-
-We notice that if $\nabla\psi \cdot \hat{\mathbf{n}} = 0$ on the boundary $\partial \Omega$, then $m_\Omega'(t) = 0$, so that the mass is conserved.
-
-\subsection{Energy}
-
-The energy in a bounded domain $\Omega$ is defined as
-
-\begin{equation}
-    E_\Omega(t) = \int_\Omega \left( \frac12 \abs{\nabla \psi}^2 + \frac14 (1 - \abs{\psi}^2)^2 \right) \dd V
-    \label{eq:energy}
-\end{equation}
-
-The derivative with respect to time, which derivation can also be found in \cite{CZ21}, is
-
-\[E_\Omega'(t) = \Im\left[\frac12 \int_{\partial \Omega} \left(\nabla^2 \bar{\psi} + (1 - \abs{\psi}^2)\bar{\psi} \right)\nabla\psi \cdot \hat{\mathbf{n}} \,\dd S \right] \]
-
-Again, if $\nabla\psi \cdot \hat{\mathbf{n}} = 0$ on the boundary $\partial \Omega$, then $E_\Omega'(t) = 0$.
+These deep formal similarities suggest that the study of quantum vortex dynamics, in particular \emph {non-dissipative vortex reconnection} events, could provide valuable insights into understanding the complex structure of turbulence in the classical case.
 
 \section{Approximation of steady-state vortex}
 
-In a two-dimensional domain we set
+In what follows, we will focus on the two-dimensional case, which is sufficient to describe straight vortices in three dimensions. Here we will seek an expression for the density profile in the case of a single steady-state vortex, centered at the origin. Let us start by imposing that, in a 2-dimensional domain, the wavefunction has the form
 
 \[
-    \psi(x,y)=\rho\left(\sqrt{x^2+y^2}\right)\,\exp\left(\mathrm{i}\,\theta(x,y)\right),
+    \psi(x,y)=f(r)\exp\left(\ii\,\theta(x,y)\right)
 \]
 
-where \(\rho(r)\) is a function to be determined. Requiring time-independence (steady-state solution) leads to the following ordinary differential equation for $\rho$:
+where $r = \sqrt{x^2 + y^2}$ and $f(r) = \sqrt{\rho(r)}$.
+
+Now, we need to determine the function $f(r)$. By imposing the time independency condition, and substituting the above expression into the GPE \eqref{eq:gpe}, we obtain the following boudary value problem:
 
 \begin{equation}
-    \rho''(r)+\frac{\rho'(r)}{r}+\frac{(\rho'(r))^2}{2\rho(r)}-\frac{2\,\rho(r)}{r^2}+2\bigl(1-\rho(r)\bigr)\rho(r)=0,
+    f'' + \frac{f'}{r} + f\left(1 - f^2 - \frac{1}{r^2}\right) = 0
     \label{eq:density}
 \end{equation}
 
-with boundary conditions $\rho(0)=0$ and $\rho(\infty)=1$. There are several approaches: one could solve the boundary-value problem directly on a truncated domain and interpolate the solution. In many applications, however, it is convenient to approximate $\rho(r)$ using a Padé approximant of arbitrary order. The Padé approximant used below is of fourth order; its coefficients are reported in \cite{CZ21}.
-
+with boundary conditions $f(0)=0$ and $f(\infty)=1$. There are several approaches: one could solve the boundary-value problem directly on a truncated domain and interpolate the solution. In many applications, however, it is convenient to approximate $f(r)$ using a Padé approximant, in order to be able to evaluate the function everywhere. In what follows we will use a 4-th order Padé approximant, which coefficents can be found in \cite{CZ18}.
 
 

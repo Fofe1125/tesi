@@ -5,29 +5,25 @@ close all;
 load('ufd.mat','U_ufd','X_ufd','Y_ufd');
 load('nfd.mat','U_nfd','X_nfd','Y_nfd');
 
-%% plot 
+%% plot
 load('stepper_cmap.mat', 'CustomColormap');
 color = CustomColormap;
 
-Lx = [0 30]; Ly = [20 30];
+Lx = [-30 30]; Ly = [-30 30];
 
 figure;
 subplot(1,2,1);
 surf(X_ufd, Y_ufd, abs(U_ufd), 'EdgeColor', 'none');
 colorbar; colormap(color);
-xlabel('X-axis');
-ylabel('Y-axis');
 xlim(Lx); ylim(Ly);
-zlabel('UFD');
+title('UFD');
 view(2);
 
 subplot(1,2,2);
 surf(X_nfd, Y_nfd, abs(U_nfd), 'EdgeColor', 'none');
 colorbar, colormap(color);
-xlabel('X-axis');
-ylabel('Y-axis');
 xlim(Lx); ylim(Ly);
-zlabel('NFD');
+title('NFD');
 view(2);
 
 vmin = min([abs(U_nfd(:)); abs(U_ufd(:))]);

@@ -26,23 +26,21 @@ y = linspace(-L, L, Ny)';
 
 [X, Y] = ndgrid(x, y);
 
+%% save grid
+save('data/grid_ufd.mat', 'X', 'Y');
+
 %% initial condition
 rhoVortex = rho(X, Y, 0,0);
 phase = atan2(Y,X);
 
 U0 = sqrt(rhoVortex).*exp(1i*phase);
 
-%% initial conservation quantities
-
-E0 = energy(U0,x,y);
-M0 = mass(U0,x,y);
-
 %% time integration
 % Strang time splitting
-tstar = 10;
+tstar = 20;
 L = [-20,20];
 U = U0;
-nt = 500;
+nt = 450;
 tau = tstar/(nt - 1);
 disp(['tau = ', num2str(tau)]);
 
@@ -53,46 +51,15 @@ tol = 1e-8;
 mask = abs(U0) > tol;
 counter = 1;
 
-E = NaN(floor(nt/10),1);
-M = NaN(floor(nt/10),1);
-
 for k = 1:nt 
     
     U = Ex*U*Ey.';
     U = exp(tau*(1i/2)*(1 - abs(U).^2)).*U;
     U = Ex*U*Ey.';
-
-    if mod(k,10) == 0
-
-        relative_err = abs(U(mask) - U0(mask)) ./ abs(U0(mask));
-        err(counter) = max(relative_err(:));
-        times(counter) = k*tau;        
-
-        E(counter) = energy(U,x,y);
-        M(counter) = mass(U,x,y);
-
-        counter = counter + 1;
-
-    end
     
 end
 
 toc;
-
-%% relative error -- energy and mass
-figure;
-subplot(1,2,1);
-
-E_rel_err = abs((E - E0))/E0;
-semilogy(times, E_rel_err, 'bd--');
-xlabel('t'); ylabel('Energy relative error');
-
-subplot(1,2,2);
-M_rel_err = abs((M - M0))/M0;
-semilogy(times, M_rel_err, 'r^--');
-xlabel('t'); ylabel('Mass relative error');
-
-save('data/mass_energy_ufd.mat', 'times', 'M', 'E');
 
 %% plot 
 load('stepper_cmap.mat', 'CustomColormap');
@@ -108,7 +75,6 @@ xlabel('X-axis');
 ylabel('Y-axis');
 xlim([-lim,lim]); ylim([-lim,lim]);
 zlabel('Magnitude of \psi_0');
-axis equal tight;
 view(2);
 
 % surface for U(tstar)
@@ -119,7 +85,6 @@ xlabel('X-axis');
 ylabel('Y-axis');
 xlim([-lim,lim]); ylim([-lim,lim]);
 zlabel('Magnitude of \psi');
-axis equal tight;
 view(2);
 
 vmin = min([abs(U(:)); abs(U0(:))]);
@@ -133,44 +98,5 @@ U_ufd = U;
 X_ufd = X;
 Y_ufd = Y;
 save('ufd.mat', 'U_ufd', 'X_ufd', 'Y_ufd');
-
-%% total mass function
-function M = mass(Uk,x,y)
-
-    Mx = trapz(x,abs(Uk).^2,1);
-    M = trapz(y,Mx,2);
-
-end
-
-
-%% total energy function
-function E = energy(Uk,x,y)
-    
-    % E = 
-    mx = length(x); my = length(y);
-    hx = diff(x); hy = diff(y);
-    
-    dx = 1./(hx(1:mx-2) + hx(2:mx-1));
-    dy = 1./(hy(1:my-2) + hy(2:my-1));
-
-    Dx = spdiags([[-dx;0;0] [0;0;dx]], [-1 1], mx,mx);
-    Dy = spdiags([[-dy;0;0] [0;0;dy]], [-1 1], my,my);
-
-    Dx(1,1:2) = [-1 1]/hx(1);         
-    Dx(mx,mx-1:mx) = [-1 1]/hx(end); 
-
-    Dy(1,1:2) = [-1 1]/hy(1);         
-    Dy(my,my-1:my) = [-1 1]/hy(end);    
-
-    Ix = speye(mx); Iy = speye(my);
-
-    Ux = Dx*Uk*Iy; Uy = Ix*Uk*Dy.';
-
-    Elocal = (1/2)*(abs(Ux).^2 + abs(Uy).^2) + (1/4)*(1 - abs(Uk).^2).^2;
-
-    Ex = trapz(x, Elocal, 1);
-    E = trapz(y, Ex, 2);
-
-end
 
 

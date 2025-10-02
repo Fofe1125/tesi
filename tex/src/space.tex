@@ -11,7 +11,7 @@ Let us discretize the interval $[-L, L]$ with $m$ equispaced points, so that
     x_1 = -L, \quad x_m = L, \quad x_j = -L + (j-1)h, \quad 1 \leq j \leq m,
 \]
 
-where the mesh size is given by $h = \tfrac{2L}{m-1}$.  
+where the step size is given by $h = \tfrac{2L}{m-1}$.  
 Following \cite{dispenseCaliari}, the second derivative along one spatial direction is approximated by the standard finite-difference matrix
 
 \[
@@ -27,7 +27,7 @@ Following \cite{dispenseCaliari}, the second derivative along one spatial direct
     \end{bmatrix}
 \]
 
-This corresponds to the usual second-order central difference scheme with Neumann boundary conditions. 
+This corresponds to the usual second-order central difference scheme with homogeneus Neumann boundary conditions. 
 
 \subsection{Finite differences on non uniform grid}
 \label{sb:nufg}
@@ -54,6 +54,7 @@ This leads to the recurrence
 \end{align*}
 
 The constraint is that the sum of all step sizes must cover the entire interval length, which gives
+
 \[
     \sum_{j=1}^{m-1} h_j
     = h_1 \sum_{j=1}^{m-1} (1+\delta)^{j-1} 
@@ -105,10 +106,10 @@ Once we have the step vector $\hh$ constructed, we can discretize the second der
 
 \subsection{Laplacian discretization}
 
-Now, in both cases (uniforn or not), the Laplacian operator in two dimension is approximated by 
+In both the above cases, the Laplacian operator in two dimension is approximated by 
 
 \begin{equation}
-    \lap \approx I^y \kron D_2^X + D_2^Y \kron I^x
+    \lap \approx I^y \kron D_2^x + D_2^x \kron I^x
     \label{eq:lapprox}
 \end{equation}
 

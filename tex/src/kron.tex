@@ -1,4 +1,4 @@
-\chapter{Kronecker products and its properties}
+\chapter{Kronecker product and some properties}
 
 From now on, in this section $I$ denotes the identity matrix.
 
@@ -54,7 +54,7 @@ From now on, in this section $I$ denotes the identity matrix.
 \end{proof}
 
 \begin{proposition}
-    Let $A \in \C^{m \times m}$, $B \in \C^{n \times n}$, such that $[A,B] = 0$ and $\uu \in \C^{mn}$. Then 
+    Let $A \in \C^{m \times m}$, $B \in \C^{n \times n}$ and $\uu \in \C^{mn}$. Then 
 
     \[(A \kron B)\uu = \mathrm{vec}\left(BUA^T\right)\]
 
@@ -64,6 +64,8 @@ From now on, in this section $I$ denotes the identity matrix.
 \end{proposition}
 
 \begin{proof}
+
+    Consider
 
     \[
         \left(A \kron B\right)_{\left(i-1\right)m+k,\;\left(j-1\right)m+\ell} 
@@ -102,11 +104,7 @@ From now on, in this section $I$ denotes the identity matrix.
         = \left(B\,UA^T\right)_{k,i}.
     \]
     
-    Since this holds for all $i=1,\dots,n$ and $k=1,\dots,m$, we conclude that
-
-    \[
-        \left(A \kron B\right)\,\mathrm{vec}(U) = \mathrm{vec}\!\left(B\,U\,A^T\right).
-    \]
+    Since we haven't imposed nothing about $i$ and $k$, this holds for all $i=1,\dots,n$ and $k=1,\dots,m$, so the claim follows.
 
 \end{proof}
 

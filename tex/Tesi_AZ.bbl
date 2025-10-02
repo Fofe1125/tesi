@@ -1,23 +1,62 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{dispenseCaliari}
 M.~Caliari.
-\newblock Dispense di metodi numerici per le equazioni differenziali.
-\newblock 2024.
+\newblock Dispense di metodi numerici per le equazioni differenziali, 2024.
 
 \bibitem{CZ18}
 M.~Caliari and S.~Zuccher.
 \newblock Reliability of the time splitting fourier method for singular solutions in quantum fluids.
 \newblock {\em Computer Physics Communications}, 222:46--58, 2018.
+\newblock See also arXiv:1603.05022.
 
 \bibitem{CZ21}
 M.~Caliari and S.~Zuccher.
 \newblock A fast time splitting finite difference approach to gross-pitaevskii equations.
 \newblock {\em Communications in Computational Physics}, 29(5):1336--1364, May 2021.
 
+\bibitem{fetter2009rotating}
+Alexander~L. Fetter.
+\newblock Rotating trapped bose--einstein condensates.
+\newblock {\em Reviews of Modern Physics}, 81(2):647--691, 2009.
+
+\bibitem{frisch1995turbulence}
+Uriel Frisch.
+\newblock {\em Turbulence: The Legacy of A. N. Kolmogorov}.
+\newblock Cambridge University Press, 1995.
+
+\bibitem{gross1961structure}
+Eugene~P. Gross.
+\newblock Structure of a quantized vortex in boson systems.
+\newblock {\em Il Nuovo Cimento}, 20(3):454--477, 1961.
+
+\bibitem{madelung1927quantentheorie}
+Erwin Madelung.
+\newblock Quantentheorie in hydrodynamischer form.
+\newblock {\em Zeitschrift f{\"u}r Physik}, 40:322--326, 1927.
+
+\bibitem{pitaevskii1961vortex}
+Lev~P. Pitaevskii.
+\newblock Vortex lines in an imperfect bose gas.
+\newblock {\em Soviet Physics JETP}, 13(2):451--454, 1961.
+
+\bibitem{pitaevskii2016bose}
+Lev~P. Pitaevskii and Sandro Stringari.
+\newblock {\em Bose--Einstein Condensation and Superfluidity}.
+\newblock Oxford University Press, 2016.
+
 \bibitem{CZ12}
 A.W.~Baggaley S.~Zuccher, M.~Caliari and C.F. Barenghi.
 \newblock Quantum vortex reconnections.
 \newblock {\em Physics of Fluids}, 24(12):125108, 2012.
+
+\bibitem{Tanogami2021}
+Takuma Tanogami, Makoto Tsubota, Victor~S. L'vov, Sergey~V. Nazarenko, and Michikazu Kobayashi.
+\newblock Theoretical analysis of quantum turbulence using the onsager coarse-graining approach: Contribution of quantum stress to energy transfer across scales.
+\newblock {\em Physical Review E}, 103(2):023106, 2021.
+
+\bibitem{noteZ}
+S.~Zuccher.
+\newblock Note di fluidodinamica, 2024.
 
 \end{thebibliography}
