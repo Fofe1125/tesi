@@ -1,0 +1,51 @@
+\begin{frame}{Introduction to Superfluidity}
+\begin{itemize}
+    \item The classical fluid dynamics has been known for more than a century, however, a complete understanding of the model (expecially under turbulent regimes) is still missing \cite{frisch1995turbulence}
+    \item In the context of quantum mechanics, the bonsons can occupy simoultaneously the same quantum state, leading to the formation of a superfluid phase \cite{pitaevskii2016bose}, characterized by lack of viscosity and quantized vorticity
+    \item The study of superfluid turbulence can help to understand classical turbulence, since the quantization of vorticity simplifies the dynamics 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Gross-Pitaevskii Equation}
+   The governing equation for a weakly interacting Bose-Einstein condendate is the \emph{Gross-Pitaevskii equation} \cite{pitaevskii2016bose}:
+    \begin{equation*}
+        \ii \hbar \, \partial_t \, \psi = -\frac{\hbar^2}{2m} \nabla^2 \psi  + V_0 |\psi|^2 \psi - E_0 \psi
+    \end{equation*}
+
+    where $\psi(\mathbf{r},t)$ is the macroscopic wave function of the condensate, $m$ is the mass of the bosons, $V_0$ is the interaction strength and $E_0$ is the chemical potential. It can be rewritten in dimensionless form  \cite{CZ12} as:
+    \begin{equation*}
+        \partial_t \, \psi = \frac{\ii}{2} \nabla^2 \psi + \frac{\ii}{2} (1 - |\psi|^2) \psi
+    \end{equation*}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Classical analogy via Madelung transformation}
+    To achive a classical analogy, we can use the \emph{Madelung transformation} \cite{madelung1927quantentheorie}:
+    \begin{equation}
+        \psi(\rr, t) = \rho^{1/2}\exp(\ii S)
+        \label{eq:madelung}
+    \end{equation}    
+
+    where $\rho = \rho(\rr, t) = \abs{\psi(\rr, t)}^2$ is the density and $S = S(\rr, t)$ is the phase of $\psi$. The vector field $\uu = \nabla S$ can be interpreted as the superfluid velocity field.
+
+    Substituting \eqref{eq:madelung} into the GPE and separating real and imaginary parts, we obtain the following system, written in tensor notation:
+
+    \begin{align*}
+        &\pdv{\rho}{t} + \pdv{\rho u_j}{x_j} = 0 \\
+        &\rho \left(\pdv{u_i}{t} + u_j \pdv{u_i}{x_j}\right) = -\pdv{p}{x_i} + \pdv{\tau_{ij}}{x_j}, \quad i = 1,2,3
+    \end{align*}
+
+    We can observe that this system is very similar to the Navier-Stokes equations, except for the pressure and stress term. This to justify the introduction.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Approximation of steady-state vortex}
+    In a two dimensional domain, we set $\psi(x,y) = f(r)\exp(\ii \theta(x,y)) \quad r = \sqrt{x^2 + y^2}$, where we imposed the time independency.
+    In order to obtain an initial approximaion of the straight vortex, we substitute the latter equation into GPE, imposing the time independency. We obtain the boundary value problem
+
+    \begin{equation*}
+        f'' + \frac{f'}{r} + f\left(1 - f^2 - \frac{1}{r^2}\right) = 0
+    \end{equation*}
+
+    with boundary values $f(0) = 0$, $f(\infty) = 1$.
+
+    One can integrate this equation numerically, however, it is convenient to approximate $f$ with a Padé approximation \cite{Berloff20041617} in order to evaluate the latter everywhere. The approximant used in what follows is a 4-th order diagonal Padé approximaion, which coefficents are reported in \cite{CZ18}.
+\end{frame}

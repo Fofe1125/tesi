@@ -27,9 +27,9 @@ Following \cite{dispenseCaliari}, the second derivative along one spatial direct
     \end{bmatrix}
 \]
 
-This corresponds to the usual second-order central difference scheme with homogeneus Neumann boundary conditions. 
+This corresponds to the usual second-order central difference scheme with homogeneous Neumann boundary conditions. 
 
-\subsection{Finite differences on non uniform grid}
+\subsection{Finite differences on non-uniform grid}
 \label{sb:nufg}
 
 Although the above numerical scheme is simple and easy to implement, in our case it is not the most suitable one, since, as we will see in the next chapter, it requires a very large number of points to obtain physically reliable results, especially when integrating over long time intervals.  
@@ -103,6 +103,14 @@ Once we have the step vector $\hh$ constructed, we can discretize the second der
         0 & \dots & 0 & \frac{2}{h_{m-1}^2} & -\frac{2}{h_{m-1}^2}
     \end{bmatrix}
 \]
+
+\subsection{On the first grid construction}
+
+Since we are truncating the domain, the error introduced by the artificial boundary conditions is not negligible. Naturally, considering a larger domain would improve the overall accuracy of the solution. 
+
+However, considering a uniform grid, enlarging the domain also requires increasing the number of points to achieve the same accuracy that we had on the smaller domain with fewer points. This can be problematic, since doubling the domain means we would need \emph{at least} twice as many points.
+
+By using the first method we presented for constructing the non-uniform grid, it is worth noting that this construction \emph{does not depend} on the particular choice of the domain boundaries. In fact, if we fix $\delta$ and $h_1$, the grid will be \emph{almost} identical in both the smaller and the larger domains (except near the boundaries), with restricting the latter to the smaller one. This particular construction allows us to achieve \emph{the same} high resolution near the center of the vortex core while keeping the total number of points reasonably low.
 
 \subsection{Laplacian discretization}
 

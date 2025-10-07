@@ -1,0 +1,36 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{metropolis}
+% \usecolortheme{crane}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{newtxmath}
+
+\input{commands}
+
+\title{Simulations of Vortex Dynamics in Quantum Fluids}
+\author{Alessio Zanella}
+\institute{University of Verona}
+\date{17 October 2025}
+
+\setsansfont{Fira Sans}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\include{tex/01_intro}
+\include{tex/02_methods}
+
+\appendix
+
+\begin{frame}[allowframebreaks]{References}
+    \bibliographystyle{plain}
+    \bibliography{reference}
+\end{frame}
+
+\end{document}

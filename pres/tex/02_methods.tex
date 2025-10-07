@@ -1,0 +1,29 @@
+\begin{frame}[allowframebreaks]{Space discretization}
+\begin{itemize}
+    \item The central finite differences ove uniform grid is simple and easy-to-implement
+    \item The solution has a stepper gradient near the vortex core
+    \item In order to achive high resolution near the core, it is mandatory ti use a large number of points, expecially when considering large domains
+    \item A solution to this issue could be employing a non uniform space discretization, clustering points near the vortex core.
+\end{itemize}
+
+Consider the interval $[a,b] \subset \R$, and let $\xx = [x_1, \dots, x_m]^T$, with $x_1 = a$, $x_m = b$ and $x_j = x_{j-1} + h_j$, $1 \leq j \leq m-1$, where $h_j$ satisfy the recurrence $h_j = (1 + \delta)h_{j-1}$ for some fixed parameter $\delta > 0$.
+
+We can see that $h_j = (1 + \delta)h_{j-1} = (1 + \delta)^2*h_{j-2} = \dots = (1 + \delta)^{j-1}h_1$.
+
+Since we must cover the entire interval length, the constraint reads
+
+\begin{equation*}
+    \sum_{j = 1}^{m-1} h_j = h_1\sum_{j = 1}^{m-1}(1 + \delta)^{j-1} = b - a
+\end{equation*}
+
+In order to compute the points, we can proceed in three natural ways, each consisting in fixing two parameters among $m$,$\delta$ and $h_1$, then computing the remaining one. 
+
+The way that gives the most control on the grid construction is fixing $\delta$ and $h_1$, and compute $m$ as follows:
+
+\begin{equation*}
+    m = \left\lceil \frac{\log\!\left(\tfrac{\delta(b-a)}{h_1} + 1\right)}{\log(1+\delta)} + 1 \right\rceil
+\end{equation*}
+
+The ceiling function is given by the fact that $m$ must be an integer.
+
+\end{frame}

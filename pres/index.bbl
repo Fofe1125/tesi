@@ -1,0 +1,35 @@
+\begin{thebibliography}{1}
+
+\bibitem{Berloff20041617}
+Natalia~G. Berloff.
+\newblock Padé approximations of solitary wave solutions of the gross-pitaevskii equation.
+\newblock {\em Journal of Physics A: Mathematical and General}, 37(5):1617 – 1632, 2004.
+\newblock Cited by: 91; All Open Access, Green Open Access.
+
+\bibitem{CZ18}
+M.~Caliari and S.~Zuccher.
+\newblock Reliability of the time splitting fourier method for singular solutions in quantum fluids.
+\newblock {\em Computer Physics Communications}, 222:46--58, 2018.
+\newblock See also arXiv:1603.05022.
+
+\bibitem{frisch1995turbulence}
+Uriel Frisch.
+\newblock {\em Turbulence: The Legacy of A. N. Kolmogorov}.
+\newblock Cambridge University Press, 1995.
+
+\bibitem{madelung1927quantentheorie}
+Erwin Madelung.
+\newblock Quantentheorie in hydrodynamischer form.
+\newblock {\em Zeitschrift f{\"u}r Physik}, 40:322--326, 1927.
+
+\bibitem{pitaevskii2016bose}
+Lev~P. Pitaevskii and Sandro Stringari.
+\newblock {\em Bose--Einstein Condensation and Superfluidity}.
+\newblock Oxford University Press, 2016.
+
+\bibitem{CZ12}
+A.W.~Baggaley S.~Zuccher, M.~Caliari and C.F. Barenghi.
+\newblock Quantum vortex reconnections.
+\newblock {\em Physics of Fluids}, 24(12):125108, 2012.
+
+\end{thebibliography}

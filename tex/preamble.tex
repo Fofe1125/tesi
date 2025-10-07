@@ -1,0 +1,72 @@
+\usepackage{amssymb, amsthm, amsfonts, amsmath, mathtools, mathrsfs}
+\usepackage{newtxmath, newtxtext}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage[english]{babel}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{frontespizio}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{scrextend}
+
+\lstset{
+    language=Matlab,   
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=2pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=none
+}
+
+\hypersetup{
+  colorlinks=false,
+  pdfborder={0 0 0} % forza border a zero
+}
+
+\DeclareMathSizes{10}{10}{7}{5}
+% \numberwithin{equation}{section}
+
+\newtheoremstyle{myplain}% Custom style for theorems
+    {1ex}% Space above
+    {1ex}% Space below
+    {\itshape}% Body font
+    {}% Indent amount
+    {\bfseries}% Theorem head font
+    {.}% Punctuation after theorem head
+    {0.5em}% Space after theorem head
+    {}% Theorem head spec
+
+\newtheoremstyle{mydefinition}% Custom style for definitions and similar environments
+    {1ex}% Space above
+    {1ex}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries}% Theorem head font
+    {.}% Punctuation after theorem head
+    {0.5em}% Space after theorem head
+    {}% Theorem head spec
+
+\theoremstyle{myplain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{mydefinition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\input{style}

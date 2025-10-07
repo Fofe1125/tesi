@@ -1,0 +1,19 @@
+\chapter{Conclusions}
+
+In this thesis, we investigated the numerical simulation of vortex dynamics in a superfluid system, focusing on the implementation and comparison of central finite-difference schemes on both uniform and non-uniform grids. The time evolution was performed through the Strang splitting method, which proved to be an efficient and reliable approach for the integration of nonlinear partial differential equations of this type.
+
+\medskip
+
+The proposed construction of the uniform grid turned out to be particularly effective, as it allows the use of large computational domains while maintaining high resolution in the regions of interest, without an unreasonable increase in the total number of grid points. The method has shown good stability and accuracy properties, while keeping computational costs at a reasonable level.
+
+\medskip
+
+Nevertheless, the approach still suffers from the truncation of the physical domain and the imposition of artificial boundary conditions, which can introduce undesired reflections or distortions near the boundaries. A possible future development of this work would be the implementation of a \emph{free-boundary} method, for instance by rescaling the unbounded domain $\mathbb{R}^2$ into the finite interval $(-1,1)^2$, thereby eliminating the need for explicit boundary conditions.
+
+\medskip
+
+Finally, the dynamics of rectilinear vortices were analyzed, showing how, depending on their initial phases, the vortices may either drift towards the domain boundaries or rotate around their common center of mass. The simulations highlighted how both the translational and rotational velocities strongly depend on the initial separation between the vortex cores. This confirms that the implemented numerical framework is capable of capturing the main qualitative and quantitative features of vortex interactions in superfluid systems.
+
+\medskip
+
+Overall, the results obtained provide a solid foundation for further developments of the numerical model, and represent a step towards a more flexible and accurate computational framework for the study of quantum vortex dynamics.

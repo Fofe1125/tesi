@@ -28,7 +28,7 @@ The governing equation for a weakly interacting Bose-Einstein condendate is, as 
 
 where $\psi = \psi(\rr, t)$ is the complex macroscopic wavefunction for a condensate of $N$ bosons of mass $m$ at position $\rr$ and time $t$. The constant $\hbar$ is the reduced Planck's constant, $V_0$ is the strength of the repulsive interactions between bosons, and $E_0$ is the chemical potential of the system (the energy required to add a boson to the condensate).
 
-The adimensional form of the GPE, which derivation can be found in \cite{CZ12}, is
+The adimensional form of the GPE, whose derivation can be found in \cite{CZ12}, is
 
 \begin{equation}
     \pdv{\psi}{t} = \frac\ii2\lap\psi + \frac\ii2 (1 - \abs{\psi}^2)\psi
@@ -69,13 +69,13 @@ are the pressure and the quantum stress tensor, respectively.
 
 We can clearly recognize the mass continuity equation in the first equation, being formally identical to its classical counterpart. Differences begin to emerge in the second equation, which essentially expresses the conservation of momentum.
 
-The quantum fluid is inherently \emph{inviscid}. Unlike the viscous stress tensor $d_{ij}$ \cite{noteZ} present in the Navier-Stokes equations, which is proportional to the velocity gradient and dissipates kinetik energy through friction, while the \emph{quantum stress tensor $\tau_{ij}$} introduces no dissipation. Instead, this term redistrubuate the energy within the system\cite{Tanogami2021}, notably stabilizing the near-zero density structure of the vortex core.
+The quantum fluid is inherently \emph{inviscid}. Unlike the viscous stress tensor $d_{ij}$ \cite{noteZ} present in the Navier-Stokes equations, which is proportional to the velocity gradient and dissipates kinetik energy through friction, while the \emph{quantum stress tensor $\tau_{ij}$} introduces no dissipation. Instead, this term redistribuate the energy within the system \cite{Tanogami2021}.
 
-These deep formal similarities suggest that the study of quantum vortex dynamics, in particular \emph {non-dissipative vortex reconnection} events, could provide valuable insights into understanding the complex structure of turbulence in the classical case.
+These deep formal similarities suggest that the study of quantum vortex dynamics, in particular \emph{non-dissipative vortex reconnection} events, could provide valuable insights into understanding the complex structure of turbulence in the classical case.
 
 \section{Approximation of steady-state vortex}
 
-In what follows, we will focus on the two-dimensional case, which is sufficient to describe straight vortices in three dimensions. Here we will seek an expression for the density profile in the case of a single steady-state vortex, centered at the origin. Let us start by imposing that, in a 2-dimensional domain, the wavefunction has the form
+In what follows, we will focus on the two-dimensional case, which is sufficient to describe straight vortices in three dimensions. Here we will seek an expression for the density profile in the case of a single steady-state vortex, centered at the origin. Let us start by imposing that and the time independency. In a 2-dimensional domain, with these constraints, the wavefunction has the form
 
 \[
     \psi(x,y)=f(r)\exp\left(\ii\,\theta(x,y)\right)
@@ -90,6 +90,6 @@ Now, we need to determine the function $f(r)$. By imposing the time independency
     \label{eq:density}
 \end{equation}
 
-with boundary conditions $f(0)=0$ and $f(\infty)=1$. There are several approaches: one could solve the boundary-value problem directly on a truncated domain and interpolate the solution. In many applications, however, it is convenient to approximate $f(r)$ using a Padé approximant, in order to be able to evaluate the function everywhere. In what follows we will use a 4-th order Padé approximant, which coefficents can be found in \cite{CZ18}.
+with boundary conditions $f(0)=0$ and $f(\infty)=1$. There are several approaches: one could solve the boundary-value problem directly on a truncated domain and interpolate the solution. In many applications, however, it is convenient to approximate $f(r)$ using a Padé approximant \cite{Berloff20041617}, in order to be able to evaluate the function everywhere. In what follows we will use a 4-th order Padé approximant, which coefficents can be found in \cite{CZ18}.
 
 

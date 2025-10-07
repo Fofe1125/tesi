@@ -1,96 +1,7 @@
-\documentclass[12pt]{report}
+\documentclass[a4paper,12pt,twoside,openany]{scrbook}
 
-\usepackage{amssymb, amsthm, amsfonts, amsmath, mathtools, mathrsfs}
-\usepackage{newtxmath, newtxtext}
-% \usepackage{fourier}
-\usepackage[a4paper]{geometry}
-\usepackage[english]{babel}
-\usepackage{verbatim}
-\usepackage{tikz}
-\usepackage{frontespizio}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
-\usepackage{subcaption}
-\usepackage{float}
-\usepackage{multicol}
-\usepackage{listings}
-\usepackage{xcolor}
-
-\lstset{
-    language=Matlab,   
-    basicstyle=\ttfamily\footnotesize,
-    keywordstyle=\color{blue},
-    commentstyle=\color{green!50!black},
-    stringstyle=\color{red},
-    numbers=none,
-    numberstyle=\tiny\color{gray},
-    stepnumber=1,
-    numbersep=2pt,
-    showstringspaces=false,
-    breaklines=true,
-    frame=none
-}
-
-\hypersetup{
-  colorlinks=false,
-  pdfborder={0 0 0} % forza border a zero
-}
-
-\DeclareMathSizes{10}{10}{7}{5}
-% \numberwithin{equation}{section}
-
-\newtheoremstyle{myplain}% Custom style for theorems
-    {1ex}% Space above
-    {1ex}% Space below
-    {\itshape}% Body font
-    {}% Indent amount
-    {\bfseries}% Theorem head font
-    {.}% Punctuation after theorem head
-    {0.5em}% Space after theorem head
-    {}% Theorem head spec
-
-\newtheoremstyle{mydefinition}% Custom style for definitions and similar environments
-    {1ex}% Space above
-    {1ex}% Space below
-    {\normalfont}% Body font
-    {}% Indent amount
-    {\bfseries}% Theorem head font
-    {.}% Punctuation after theorem head
-    {0.5em}% Space after theorem head
-    {}% Theorem head spec
-
-\theoremstyle{myplain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-
-\theoremstyle{mydefinition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-\newtheorem{remark}[theorem]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\C}{\mathbb{C}}
-\newcommand{\bigO}{\mathcal{O}}
-\newcommand{\kron}{\otimes}
-\newcommand{\abs}[1]{\left| #1 \right|}
-\newcommand{\ii}{\mathrm{i}}
-\newcommand{\dd}{\mathrm{d}}
-\newcommand{\ddiv}{\mathbf{\nabla} \cdot}
-\newcommand{\xx}{\mathbf{x}}
-\newcommand{\hh}{\mathbf{h}}
-\newcommand{\rr}{\mathbf{r}}
-\newcommand{\uu}{\mathbf{u}}
-\newcommand{\nb}{\mathbf{\nabla}}
-\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
-\newcommand{\pdvn}[3]{\frac{\partial^{#3} #1}{\partial #2^{#3}}}
-\newcommand{\lap}{\laplace}
-% \newcommand{\lap}{\Delta}
-
-\renewcommand{\thetheorem}{\thechapter.\arabic{theorem}}
-\renewcommand{\qedsymbol}{$\blacksquare$}
+\input{preamble}
+\input{commands}
 
 \begin{document}
 
@@ -103,7 +14,6 @@
     \Universita{Verona}
     \Dipartimento{Informatica}
     \Corso[laurea triennale]{Matematica Applicata}
-    \Logo{img/logo_univr_png}
     \Annoaccademico{2024--2025}
     \Titoletto{Tesi di laurea triennale}
     \Titolo{Numerical Simulations of Vortex Dynamics in Quantum Fluids}
@@ -113,40 +23,49 @@
 
 \end{frontespizio}
 
-\cleardoublepage
-\thispagestyle{empty} % niente numero di pagina
+\frontmatter
 
-\vspace*{2cm} % spazio dall'alto
-\begin{flushleft}
-\textit{Le matrici sono pecore travestite da lupi \textasciitilde{} Leonard Peter Bos}
-\end{flushleft}
+% \vspace*{2cm} % spazio dall'alto
+% \begin{flushleft}
+% \textit{Le matrici sono pecore travestite da lupi \textasciitilde{} Leonard Peter Bos}
+% \end{flushleft}
 
-\vfill % spinge il testo seguente in basso
+% \vfill % spinge il testo seguente in basso
 
-\begin{flushright}
-\textit{Ai miei nonni Lino e Armando}
-\end{flushright}
+% \begin{flushright}
+% \textit{Ai miei nonni Lino e Armando}
+% \end{flushright}
+
+% % set page number to 1
+% \setcounter{page}{1}
 
 \tableofcontents
 
+\mainmatter
+
 % introduction
-\include{src/intro}
+\include{src/01_intro}
 
 % numerical methods
-\include{src/space}
-\include{src/time_integration}
+\include{src/02_space}
+\include{src/03_time}
 
 % numerical experiments
-\include{src/experiment}
+\include{src/04_experiment}
+
+% conclusions
+\include{src/05_conclusions}
 
 \appendix
-\input{src/kron}
-\input{src/impl}
+\input{src/A1_kron}
+\input{src/A2_impl}
+
+\backmatter
 
 \bibliographystyle{plain}
 \bibliography{reference}
 
-\chapter*{Ringraziamenti}
-Vorrei ringraziare in primis il Prof. Marco Caliari per la disponibilità e la pazienza dimostrate durante la stesura di questa tesi. Un altro ringraziamento va ai miei genitori, mio fratello, le mie nonne Ada e Teresa e tutta la mia famiglia che mi ha supportato e sopportato durante questi anni nel mio percorso di studi. Un ringraziamento va anche al mio gruppo scout, in particolare alla comunità capi e a tutti i lupetti del branco, per avermi aiutato a crescere come persona e per avermi fornito una valvola di sfogo (nonché diverse birrette) nei momenti di maggior carico. Infine, un ringraziamento speciale va ai miei compagni ed ex compagni di corso, per aver studiato con me, per le sigarette in giardino, le pause caffè e le risate condivise in questi anni. In particolare vorrei ringraziare Paolo, Lorenzo A., Denny, Lorenzo Q.,Ciccia, Gaspa, Sara, Giulia, Michela, Davide, Orazio, Matteo, Ruben, Andrea, Aurora, CB e tutti gli altri con cui ho studiato almeno una volta che ora non ricordo.
+% \chapter*{Ringraziamenti}
+% Vorrei ringraziare in primis il Prof. Marco Caliari per la disponibilità e la pazienza dimostrate durante la stesura di questa tesi. Un altro ringraziamento va ai miei genitori, mio fratello, le mie nonne Ada e Teresa e tutta la mia famiglia che mi ha supportato e sopportato durante questi anni nel mio percorso di studi. Un ringraziamento va anche al mio gruppo scout, in particolare alla comunità capi e a tutti i lupetti del branco, per avermi aiutato a crescere come persona e per avermi fornito una valvola di sfogo (nonché diverse birrette) nei momenti di maggior carico. Infine, un ringraziamento speciale va ai miei compagni ed ex compagni di corso, per aver studiato con me, per le sigarette in giardino, le pause caffè e le risate condivise in questi anni. In particolare vorrei ringraziare Paolo, Lorenzo A., Denny, Lorenzo Q.,Ciccia, Gaspa, Sara, Giulia, Michela, Davide, Orazio, Matteo, Ruben, Andrea, Aurora, CB e tutti gli altri con cui ho studiato almeno una volta che ora non ricordo.
 
 \end{document}
