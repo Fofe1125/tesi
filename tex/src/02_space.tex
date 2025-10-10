@@ -4,6 +4,10 @@
 
 In this section we describe the spatial discretization methods used to simulate the GPE.
 
+The choice of an appropriate spatial discretization is crucial to ensure both the stability and the accuracy of the numerical scheme. Different approaches can be employed depending on the geometry of the problem and the desired level of precision; in our case, we focus on finite difference methods, both on uniform and non-uniform grids, which provide a straightforward and efficient way to approximate spatial derivatives.
+
+The following subsections outline the adopted discretization strategy and discuss its main numerical properties.
+
 \subsection{Finite differences on uniform grid}
 
 Let us discretize the interval $[-L, L]$ with $m$ equispaced points, so that 
@@ -32,7 +36,7 @@ This corresponds to the usual second-order central difference scheme with homoge
 \subsection{Finite differences on non-uniform grid}
 \label{sb:nufg}
 
-Although the above numerical scheme is simple and easy to implement, in our case it is not the most suitable one, since, as we will see in the next chapter, it requires a very large number of points to obtain physically reliable results, especially when integrating over long time intervals.  
+Although the above numerical scheme is simple and easy-to-implement, in our case it is not the most suitable one, since, as we will see in the next chapter, it requires a very large number of points to obtain physically reliable results, especially when integrating over long time intervals.  
 
 Given that the vortex density exhibits stronger variations near its core, while remaining almost constant towards the boundary of the domain, it would be preferable to employ a grid that clusters points around the vortex center(s). 
 In this way, higher resolution is achieved in the regions where sharp variations occur.
@@ -84,6 +88,16 @@ The expression for $h_1$, after some trivial algebra, is
 
 \[ h_1 = \frac{\delta(b - a)}{1 - (1 + \delta)^{m - 1}} \]
 
+\subsection{On the grid construction}
+
+Since we are truncating the domain, the error introduced by the artificial boundary conditions is not negligible. Naturally, considering a larger domain would improve the overall accuracy of the solution. 
+
+However, considering a uniform grid, enlarging the domain also requires increasing the number of points to achieve the same accuracy that we had on the smaller domain with fewer points. This can be problematic, since doubling the domain means we would need \emph{at least} twice as many points.
+
+Otherwise, if we consider the firt presented way tho construct a non-uniform grid, fixing $\delta$ and $h_1$, the grid will be \emph{almost} identical in both the smaller and the larger domains (except near the boundaries), with restricting the latter to the smaller one. This particular construction allows us to achieve \emph{the same} high resolution near the center of the vortex core while keeping the total number of points reasonably low.
+
+\medskip
+
 To construct the one-dimensional discretization, it is important to note that, in the case of non-uniform finite differences, the local error can be shown to be proportional to $\bigO(h_j^2)$ provided that the difference between $h_j$ and $h_{j-1}$ is of order $\bigO(\max\{h_j^2, h_{j-1}^2\})$, therefore, care must be taken in constructing the grid using the above formula, so as to keep the difference between two consecutive steps as smooth as possible. Otherwise, the error would not even be proportional to $h_j$, which in the worst case would lead to an inconsistent scheme and consequently to significant errors in the time integration.
 
 With this in mind, we can construct the discretization along one direction by applying the procedure described above to the interval $[0, x_c]$, where $x_c$ denotes the center of the vortex, clustering the points towards $x_c$.  
@@ -103,14 +117,6 @@ Once we have the step vector $\hh$ constructed, we can discretize the second der
         0 & \dots & 0 & \frac{2}{h_{m-1}^2} & -\frac{2}{h_{m-1}^2}
     \end{bmatrix}
 \]
-
-\subsection{On the first grid construction}
-
-Since we are truncating the domain, the error introduced by the artificial boundary conditions is not negligible. Naturally, considering a larger domain would improve the overall accuracy of the solution. 
-
-However, considering a uniform grid, enlarging the domain also requires increasing the number of points to achieve the same accuracy that we had on the smaller domain with fewer points. This can be problematic, since doubling the domain means we would need \emph{at least} twice as many points.
-
-By using the first method we presented for constructing the non-uniform grid, it is worth noting that this construction \emph{does not depend} on the particular choice of the domain boundaries. In fact, if we fix $\delta$ and $h_1$, the grid will be \emph{almost} identical in both the smaller and the larger domains (except near the boundaries), with restricting the latter to the smaller one. This particular construction allows us to achieve \emph{the same} high resolution near the center of the vortex core while keeping the total number of points reasonably low.
 
 \subsection{Laplacian discretization}
 

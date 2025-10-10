@@ -3,7 +3,7 @@
 From now on, in this section $I$ denotes the identity matrix.
 
 \begin{definition}
-    Let $A \in \mathbb{R}^{m \times n}$ and $B \in \mathbb{R}^{p \times q}$. 
+    Let $A \in \mathbb{C}^{m \times n}$ and $B \in \mathbb{C}^{p \times q}$. 
     The \emph{Kronecker product} is defined as
     \[
         A \kron B = 
@@ -11,7 +11,7 @@ From now on, in this section $I$ denotes the identity matrix.
             a_{11}B & \cdots & a_{1n}B \\
             \vdots & \ddots & \vdots \\
             a_{m1}B & \cdots & a_{mn}B
-        \end{bmatrix} \in \mathbb{R}^{mp \times nq}.
+        \end{bmatrix} \in \mathbb{C}^{mp \times nq}.
     \]
     \label{ch:krondef}
 \end{definition}
@@ -108,9 +108,6 @@ From now on, in this section $I$ denotes the identity matrix.
 
 \end{proof}
 
-
-
-
 \begin{lemma}
     For every $n \in \mathbb{N}$, one has
     \[
@@ -123,7 +120,7 @@ From now on, in this section $I$ denotes the identity matrix.
     \[
         (I \kron A)^{n} = (I \kron A)(I \kron A)^{n-1} =(I \kron A)(I \kron A^{n-1}) = I \cdot I \kron A \cdot A^{n-1} = I \kron A^{n}
     \]
-    where we used the previous proposition.
+    where we used \ref{prop:prod}.
 \end{proof}
 
 \begin{lemma}

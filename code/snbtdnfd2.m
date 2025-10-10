@@ -133,6 +133,28 @@ vmax = max([abs(U(:)); abs(U0(:))]);
 subplot(1,2,1); clim([vmin vmax]);
 subplot(1,2,2); clim([vmin vmax]);
 
+%% plot IC
+
+lim = 8;
+color = jet;
+
+figure;
+subplot(1,2,1);
+surf(X, Y, abs(U0), 'EdgeColor', 'none');
+colorbar; colormap(color);
+xlim([-lim,lim]); ylim([-lim,lim]);
+title('Magnitude of \psi_0');
+view(2);
+
+% surface for U(tstar)
+subplot(1,2,2);
+surf(X, Y, phase, 'EdgeColor', 'none');
+colorbar; colormap(color);
+xlim([-lim,lim]); ylim([-lim,lim]);
+title('Initial phase');
+view(2);
+
+
 %% save data
 U_nfd = U;
 X_nfd = X;

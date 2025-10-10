@@ -12,7 +12,7 @@ Despite its quantum nature, the superfluid often exhibits behavior that parallel
 
 These events though, makes the GPE analitically almost intractable, especially in the presence of multiple vortices or reconnection events. Therefore, it has been widely studied through numerical simulations, (\cite{CZ12,CZ18,CZ21} as just a few examples). 
 
-The aim of this thesis is, therefore, to study in detail an efficient numerical method for solving the GPE in the presence of straight vortices, both from the perspective of numerical analysis and via computational experiments illustrating some examples of straight vortex dynamics. We will employ a time-splitting method combined with finite differences on both uniform and nonuniform grid, which allows for high spatial resolution near the vortex core while keeping the computational cost manageable.
+The aim of this thesis is, therefore, to study in detail an efficient numerical method for solving the GPE in the presence of straight vortices, both from the perspective of numerical analysis and via computational experiments illustrating some examples of straight vortex dynamics. We will employ a time-splitting method combined with finite differences on both uniform and non-uniform grid, which allows for high spatial resolution near the vortex core while keeping the computational cost manageable.
 
 \newpage
 
@@ -37,7 +37,7 @@ The adimensional form of the GPE, whose derivation can be found in \cite{CZ12}, 
 
 \subsection{Classical analogy via the Madelung transformation}
 
-To give an idea of the analogy with classical fluid mechanics, as previously mentioned, we will give a brief overview of how the GPE can be rearranged to obtain a system of equations that closely resembles the Navier-Stokes equations for an inviscid and incompressible fluid.
+To give an idea of the analogy with classical fluid mechanics, as previously mentioned, we will give a brief overview of how the GPE can be rearranged to obtain a system of equations that closely resembles the Navier-Stokes equations for an inviscid and incompressible flow.
 
 \medskip
 
@@ -55,21 +55,21 @@ where $\rho = \rho(\rr, t) = \abs{\psi(\rr, t)}^2$ is the density and $S = S(\rr
 Substituting \eqref{eq:madelung} into \eqref{eq:gpe} and separating real and imaginary parts, after some straightforward algebra \cite{CZ12}, we obtain the following system of equations, written in tensorial notation
 
 \begin{align*}
-    &\pdv{\rho}{t} + \pdv{\rho u_j}{x_j} = 0 \\
+    &\pdv{\rho}{t} + \pdv{(\rho u_j)}{x_j} = 0 \\
     &\rho \left(\pdv{u_i}{t} + u_j \pdv{u_i}{x_j}\right) = -\pdv{p}{x_i} + \pdv{\tau_{ij}}{x_j}, \quad i = 1,2,3
 \end{align*}
 
 where 
 
 \[
-    p = \frac{\rho^2}{4} \quad \text{and} \quad \tau_{ij} = \frac14 \rho \pdvn{\log \rho}{x_i x_j}{2}
+    p = \frac{\rho^2}{4} \quad \text{and} \quad \tau_{ij} = \frac14 \rho \frac{\partial^2\,\log \rho}{\partial\,x_i x_j}
 \]
 
 are the pressure and the quantum stress tensor, respectively.
 
 We can clearly recognize the mass continuity equation in the first equation, being formally identical to its classical counterpart. Differences begin to emerge in the second equation, which essentially expresses the conservation of momentum.
 
-The quantum fluid is inherently \emph{inviscid}. Unlike the viscous stress tensor $d_{ij}$ \cite{noteZ} present in the Navier-Stokes equations, which is proportional to the velocity gradient and dissipates kinetik energy through friction, while the \emph{quantum stress tensor $\tau_{ij}$} introduces no dissipation. Instead, this term redistribuate the energy within the system \cite{Tanogami2021}.
+The quantum fluid is inherently \emph{inviscid}. Unlike the viscous stress tensor $d_{ij}$ \cite{noteZ} present in the Navier-Stokes equations, which is proportional to the velocity gradient and dissipates kinetic energy through friction, while the \emph{quantum stress tensor $\tau_{ij}$} introduces no dissipation. Instead, this term redistribute the energy within the system \cite{Tanogami2021}.
 
 These deep formal similarities suggest that the study of quantum vortex dynamics, in particular \emph{non-dissipative vortex reconnection} events, could provide valuable insights into understanding the complex structure of turbulence in the classical case.
 
@@ -83,13 +83,19 @@ In what follows, we will focus on the two-dimensional case, which is sufficient 
 
 where $r = \sqrt{x^2 + y^2}$ and $f(r) = \sqrt{\rho(r)}$.
 
-Now, we need to determine the function $f(r)$. By imposing the time independency condition, and substituting the above expression into the GPE \eqref{eq:gpe}, we obtain the following boudary value problem:
+Now, we need to determine the function $f(r)$. By imposing the time independency condition, and substituting the above expression into the GPE \eqref{eq:gpe}, we obtain the following boundary value problem:
 
 \begin{equation}
     f'' + \frac{f'}{r} + f\left(1 - f^2 - \frac{1}{r^2}\right) = 0
     \label{eq:density}
 \end{equation}
 
-with boundary conditions $f(0)=0$ and $f(\infty)=1$. There are several approaches: one could solve the boundary-value problem directly on a truncated domain and interpolate the solution. In many applications, however, it is convenient to approximate $f(r)$ using a Padé approximant \cite{Berloff20041617}, in order to be able to evaluate the function everywhere. In what follows we will use a 4-th order Padé approximant, which coefficents can be found in \cite{CZ18}.
+with boundary conditions $f(0)=0$ and $f(\infty)=1$. There are several approaches: one could solve the boundary-value problem directly on a truncated domain and interpolate the solution. In many applications, however, it is convenient to approximate $f(r)$ using a Padé approximant \cite{Berloff20041617}, in order to be able to evaluate the function everywhere. In what follows we will use a 4-th order Padé approximant, which coefficients can be found in \cite{CZ18}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/initial_cond.pdf}
+    \caption{Magnitude $\abs{\psi_0} = \sqrt{\rho}$ (left), initial phase in radiants (right)}
+\end{figure}
 
 

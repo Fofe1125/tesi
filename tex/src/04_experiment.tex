@@ -5,7 +5,7 @@
 
 The first numerical experiment we consider concerns the preservation of the steady-state solution of \eqref{eq:gpe}. Since this solution is stationary, a natural way to assess the quality of our numerical method is to examine how much the approximate solution deviates from the initial one over long integration times.
 
-In all the following experiments, we approximate the density $\rho$ by a 4-th order Padé approximation of the equation \eqref{eq:density}
+In all the following experiments, we approximate the density $\rho$ using a 4-th order Padé approximation of the equation \eqref{eq:density}
 
 From now on, the notation $\psi_t$ denotes the numerical solution at time $t > 0$.
 
@@ -13,18 +13,19 @@ From now on, the notation $\psi_t$ denotes the numerical solution at time $t > 0
 
 We now present some results from the performed experiments. The parameters used in the following simulations are: $m_x = m_y = 347$, $n_t = 450$, $t^* = 20$, $L_x = L_y = 30$.
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/ltufd20t347s30L.pdf}
     \caption{$\abs{\psi_0}$ (left) and $\abs{\psi_{20}}$ (right), finite differences on a uniform grid.}
 \end{figure}
 
-In this figure, we can observe that the numerical solution integrated up to $t = 20$ shows slight variations in the norm outside the vortex core. To highlight this difference more clearly, we employ an alternative colormap with a steeper gradient for values close to $1$:
+In this figure, we can observe that the numerical solution integrated up to $t = 20$ shows slight variations in the norm outside the vortex core. To highlight this difference more clearly, in Figure \ref{fig:stepper} we employ an alternative colormap with a steeper gradient for values close to $1$
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/ltufd20t347s30L_color.pdf}
     \caption{Initial solution (left), solution at time $t = 20$ (right)}
+    \label{fig:stepper}
 \end{figure}
 
 We observe that the variations in the norm are localized near the boundaries of the domain, outside the vortex core. To highlight this, Figure~\ref{fig:vortex_center} shows the truncated domain $[-5,5]$, emphasizing the vortex center.
@@ -36,7 +37,7 @@ We observe that the variations in the norm are localized near the boundaries of 
     \label{fig:vortex_center}
 \end{figure}
 
-From this figure, we can see that no visually appreciable variations occur near the vortex core.
+\pagebreak
 
 \subsection{Non-uniform grid}
 
@@ -58,13 +59,15 @@ We can observe that the solution on the two grids is very similar, showing some 
     \caption{Zoom near the boundary of the domain.}
 \end{figure}
 
-In this zoomed view near the boudary of the domain, we can see that the solution on the non-uniform grid appears to be sligtly less accurate, due to the coarser discretization in that region. However, the differences are minimal, and does not significantly affect the overall quality of the solution.
+In this zoomed view near the boudary of the domain, we can see that the solution on the non-uniform grid appears to be slightly less accurate, due to the coarser discretization in that region. However, the differences are minimal, and do not significantly affect the overall quality of the solution.
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/comparison_unfd_5.pdf}
     \caption{Zoom near the center of the domain.}
 \end{figure}
+
+Zooming into the center of the domain, again, no significant differences are observed. However, the refinement of the grid towards the origin in the non-uniform construction is clearly visible.
 
 \begin{figure}[H]
     \centering
@@ -72,7 +75,7 @@ In this zoomed view near the boudary of the domain, we can see that the solution
     \caption{Grid comparison}
 \end{figure}
 
-Zooming into the center of the domain, again, no significant differences are observed. However, the refinement of the grid towards the origin in the non-uniform construction is clearly visible.
+\pagebreak
 
 \section{Simulations of two straight vortices}
 
@@ -88,23 +91,26 @@ we have $\rho_1 = \rho(x - x_{c_1}, y - y_{c_1})$ and $S_1 = \mathrm{atan2}(y - 
 
 All the following experiments have been carried out under the assumption of symmetry with respect to the $y$-axis, so that $x_c = x_{c_1} = -x_{c_2}$.
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/str_01030_3.pdf}
     \caption{Comparison between $\abs{\psi_0}$ (left), $\abs{\psi_{10}}$ (center), and $\abs{\psi_{30}}$ (right), for $x_c = 3$, $m_x = 259$, $m_y = 201$, and number of time steps $n_t = 1500$.}
 \end{figure}
 
-With this configuration, the vortices appear to march steadily towards the lateral boundaries of the computational domain. This drift is a direct consequence of the imposed counter-rotation, which breaks the otherwise stationary balance. In the following figure we can appreciate how the translation speed depends strongly on the initial separation between the vortex centers.
+With this configuration, the vortices appear to march steadily towards the lateral boundaries of the computational domain. This drift is a direct consequence of the imposed counter-rotation, which breaks the otherwise stationary balance. In Figure \ref{fig:str235} we can appreciate how the translation speed depends strongly on the initial separation between the vortex centers.
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/str_235_30t.pdf}
     \caption{Solutions at time $t = 30$ for $x_c = 2, 3,$ and $5$.}
+    \label{fig:str235}
 \end{figure}
 
-All simulations reported here were performed on a nonuniform grid along the $x$-direction, reported in \autoref{fig:mvortexgrid} with the spacing defined in Section \ref{sb:nufg}, while in the $y$-direction equispaced nodes were employed. This choice of discretization allows one to concentrate grid resolution where the vortex dynamics are more intense, without excessively increasing the overall computational cost.
+All simulations reported here were performed on a nonuniform grid along the $x$-direction, reported in \autoref{fig:mvortexgrid} with the spacing defined in Section \ref{sb:nufg}, while in the $y$-direction equispaced nodes were employed.
 
-\section{Simulation of two rotating vortex}
+\pagebreak
+
+\subsection{Simulation of two rotating vortex}
 We now consider the case of two vortices with the same rotation direction, which results in a rotation of the vortex pair around their center of mass.
 
 The initial condition is given by 
@@ -115,7 +121,7 @@ The initial condition is given by
 
 with $\rho_1 = \rho(x - x_{c_1}, y - y_{c_1})$ and $S_1 = \mathrm{atan2}(y - y_{c_1}, x - x_{c_1})$, while $\rho_2 = \rho(x - x_{c_2}, y - y_{c_2})$ and $S_2 = \mathrm{atan2}(y - y_{c_2}, x - x_{c_2})$.
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/rotating.pdf}
     \caption{Initial solution (left) and solution at time $t = 22$ (right).}
@@ -123,7 +129,7 @@ with $\rho_1 = \rho(x - x_{c_1}, y - y_{c_1})$ and $S_1 = \mathrm{atan2}(y - y_{
 
 In this simulation, the grid was constructed according to \ref{sb:nufg} in both directions, with parameters $x_c = 3$, $h_1 = 0.05$, and $\delta = 0.025$, resulting in $m_x = m_y = 255$ grid points. The time step was set to $\tau = 0.05$.
 
-\subsection{Comparison between uniform and nonuniform grids}
+\subsection{Comparison between uniform and non-uniform grids}
 
 It is particularly interesting to examine how the solution changes depending on the chosen grid, while keeping the parameters fixed. We shall carry out one final experiment to compare the two grids, since in the non-stationary case we observed that the differences are much more pronounced than in the stationary one.
 
@@ -137,22 +143,22 @@ The following experiment was carried out using a nonuniform grid, advancing the 
 
 It is clearly visible that the solution obtained with the nonuniform grid is significantly more accurate than the one computed on a uniform grid of the same size.
 
-In order to achieve a comparable level of accuracy with a uniform grid, it is necessary to substantially increase the number of points, reaching as high as $m_x = m_y = 771$, resulting, as well, in a much larger computational time.
+In order to achieve a comparable level of accuracy with a uniform grid, it is necessary to substantially increase the number of points, reaching as high as $m_x = m_y = 771$, resulting, as well as a much larger computational time.
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/comp_unfd_771.pdf}
-    \caption{Comparison between uniform grid with $m = 771$ (left) and non uniform grid with $m = 255$ (right)}
+    \caption{Comparison between uniform grid with $m = 771$ (left) and non-uniform grid with $m = 255$ (right)}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/marching_grid.pdf}
     \caption{Grid used for the marching vortex simulations}
     \label{fig:mvortexgrid}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/rotating_grid.pdf}
     \caption{Grid used for rotating vortex simulation}

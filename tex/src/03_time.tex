@@ -2,7 +2,7 @@
 
 \subsection{Strang splitting method}
 
-Consider the Cauhcy problem
+Consider the Cauchy problem
 
 \begin{equation}
     \begin{cases}
@@ -195,5 +195,5 @@ This is way better than directly compute the full exponential of Kronecker produ
 
 \[\left(\exp\left(D_2^y\right) \kron \exp\left(D_2^x\right)\right)\uu = \mathrm{vec}\left(E_x \, U \, E_y^T\right)\]
 
-This result is way better than the previous one, as now we only have to compute two small matrix exponentials and two matrix-matrix products.
+This result is significantly more efficient than the previous one, as now we only have to compute two small matrix exponentials and two matrix-matrix products.
 

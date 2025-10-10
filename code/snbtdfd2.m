@@ -99,4 +99,25 @@ X_ufd = X;
 Y_ufd = Y;
 save('ufd.mat', 'U_ufd', 'X_ufd', 'Y_ufd');
 
+%% plot IC
+
+lim = 15;
+color = jet;
+
+figure;
+subplot(1,2,1);
+title('Magnitude of \psi_0');
+surf(X, Y, abs(U0), 'EdgeColor', 'none');
+colorbar; colormap(color);
+xlim([-lim,lim]); ylim([-lim,lim]);
+zlabel('Magnitude of \psi_0');
+view(2);
+
+% surface for U(tstar)
+subplot(1,2,2);
+surf(X, Y, phase, 'EdgeColor', 'none');
+colorbar; colormap(color);
+xlim([-lim,lim]); ylim([-lim,lim]);
+title('Initial phase');
+view(2);
 
